@@ -155,10 +155,14 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(markdown-preview-mode pyenv-mode exec-path-from-shell auto-virtualenvwrapper virtualenvwrapper python-mode yasnippet-snippets neotree jedi flycheck ess atom-one-dark-theme ac-js2))))
+	(markdown-preview-eww markdown-preview-mode pyenv-mode exec-path-from-shell auto-virtualenvwrapper virtualenvwrapper python-mode yasnippet-snippets neotree jedi flycheck ess atom-one-dark-theme ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq markdown-command "pandoc")
+(autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
+(setq markdown-preview-stylesheets (list "github.css"))
