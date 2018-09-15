@@ -7,7 +7,7 @@ AUTOLOAD_DIR=$DOT_HOME/vim/autoload
 VIMPLUG_FILE=$DOT_HOME/vim/autoload/plug.vim
 ZPLUG_HOME=~/.zplug
 TPM_HOME=~/.tmux/plugins/tpm
-REMOTE_URL="https://github.com/vwrs/dotfiles.git"
+REMOTE_URL="https://github.com/daigo0927/dotfiles.git"
 CONFIG_HTOP=$HOME/.config/htop
 CONFIG_NVIM=$HOME/.config/nvim
 if which tput >/dev/null 2>&1; then
