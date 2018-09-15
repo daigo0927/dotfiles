@@ -21,7 +21,7 @@ Install `zsh`, `git`, `neovim` or `vim`, and `tmux`.
 
 ## Installation
 ```
-$ bash -c "`curl -fsSL raw.github.com/vwrs/dotfiles/master/bootstrap`"
+$ bash -c "`curl -fsSL raw.github.com/daigo0927/dotfiles/master/bootstrap`"
                    __          __       ___      ___
                   /\ \        /\ \__  /'___\ __ /\_ \
                   \_\ \    ___\ \ ,_\/\ \__//\_\\//\ \      __    ____
