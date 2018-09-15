@@ -1,168 +1,82 @@
-(prefer-coding-system 'utf-8)
-;;カラム番号も表示
-(column-number-mode t)
-
-(add-to-list 'load-path "~/.emacs.d/elisp")
-
-;; ;; シェルのPATHを引き継ぐ
-;; (autoload 'exec-path-from-shell "exec-path-from-she" nil t)
-;; (exec-path-from-shell-initialize)
-
-;;タイトルバーにフルパスを表示
-(setq frame-title-fomat "%f")
-
-;;TABの表示幅を4に設定
-(setq-default tab-width 4)
-
-;; 起動時のメッセージを表示しない
-(setq inhibit-startup-message t)
-
-;; emacs-thema
-;; use Atom thema
-(setq custom-theme-directory "~/.emacs.d/elpa/atom-one-dark-theme-20170117.1905")
-(load-theme 'atom-one-dark t)
+(setq inhibit-startup-message 1)
 
 
-;; GUIではAtom風テーマ
-;; (if window-system (progn
-;; 	;; Atom風テーマ
-;; 	(setq custom-theme-directory "~/.emacs.d/elpa/atom-one-dark-theme-20170117.1905")
-;; 	(load-theme 'atom-one-dark t)
-					
-;; 	))
+;; specify base directory
+(when load-file-name
+  (setq user-emacs-directory (file-name-directory load-file-name)))
 
-;; (if (not window-system) (progn
-;; 						  ;; プリインストールテーマ
-;; 						  (load-theme 'wombat t)
-;; 						  ))
+;; package management
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(fset 'package-desc-vers 'package--ac-desc-version)
+(package-initialize)
 
-;;背景色文字色
-;; (set-face-background 'default "black")
-;;(set-face-foreground 'default "lightgreen")
-;;選択時の背景色文字色
-(set-face-background 'region "white")
-(set-face-foreground 'region "black")
-;;カッコを対応させる
-(show-paren-mode t)
+;; custom file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
-(which-function-mode 1)
-
-
-
-;set clearness
-(set-frame-parameter nil 'alpha 75)
-
-;; AutoInstall
-(when (require 'auto-install nil t)
-  (setq auto-install-directory "~/.emacs.d/elisp/")
-  (auto-install-update-emacswiki-package-name t)
-  (auto-install-compatibility-setup))
-
-
-;;auto-complete
-(when (require 'auto-complete-config nil t)
-  (add-to-list 'ac-dictionary-directories
-			   "~/.emacs.d/elisp/ac-dict")
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  (ac-config-default))
-
-(defun electric pair ()
-	   "Insert character pair without sorounding space"
-	   (interactive)
-	   (let(pares-require-spaces)
-		 (insert-pair)))
-
-
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/")
-   t)
-  (package-initialize))
-
-;; emacs-python auto-complete
-(require 'epc)
-(require 'python)
+;; python major mode
 (require 'python-mode)
-(setq auto-mode-alist (cons '("\\.py\\'" . python-mode) auto-mode-alist))
-(require 'set-pyenv-version-path)
-;;(add-hook 'find-file-hook 'set-pyenv-version-path)
-;;(add-to-list 'exec-path "~/.pyenv/shims")
+(add-to-list 'auto-mode-alist '("\\\.py\\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
+;; flycheck - error check
+(defun my/turn-on-flycheck-mode ()
+  (flycheck-mode 1))
+(add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
+
+;; jedi - completion for python
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; auto complete
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
+
+;; py-yapf - auto format
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+
+;; helm - awesome tool
+(require 'helm-config)
+(helm-mode 1)
+(global-set-key (kbd "C-x C-r") 'helm-recentf) 
+(global-set-key (kbd "M-y") 'helm-show-kill-ring) 
+(global-set-key (kbd "M-r") 'helm-occur)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "C-c i")   'helm-imenu)
+
+(require 'helm-swoop)
+(global-set-key (kbd "M-o") 'helm-swoop)
+(global-set-key (kbd "C-M-o") 'helm-multi-swoop)
+
+(require 'iedit)
+(global-set-key (kbd "C-x ;") 'iedit-mode)
+
+(semantic-mode 1)
+(add-hook 'python-mode-hook
+  (lambda ()
+    (setq imenu-create-index-function 'python-imenu-create-index)))
+
+;; jedi
+(setq load-path (cons "~/emacs.d/elpa" load-path))
+(require 'epc)
+(require 'auto-complete-config)
+(require 'python)
+(setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
 (require 'jedi)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
-(add-to-list 'load-path "~/.emacs.d/yasnippet/")
-(require 'yasnippet)
-(yas/global-mode 1)
-
-;; emacs-java auto-complete
-(add-to-list 'load-path "~/.emacs.d/ajc-java-complete/")
-(require 'ajc-java-complete-config)
-(add-hook 'java-mode-hook 'ajc-java-complete-mode)
-(add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
-
-;; auto spell check
-(setq-default ispell-program-name "aspell")
-(eval-after-load "ispell"
-  '(add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
-;;
-(global-set-key (kbd "C-M-$") 'ispell-complete-word)
-
-;; emacs-js auto-complete
-(add-hook 'js2-mode-hook
-		  '(lambda ()
-			 (when (locate-library "tern")
-			   (setq tern-command '("tern" "--no-port-file")) ;; .term-port を作らない
-			   (tern-mode t)
-			   (eval-after-load 'tern
-				 '(progn
-					(require 'tern-auto-complete)
-					(tern-ac-setup)))
-			   )
-			 ))
-
-
-(autoload 'js2-mode "js2-mode" nil t)
-
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-jsx-mode))
-;; js2-jsx-modeでflycheckを有効にする
-(require 'flycheck)
-(flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
-(add-hook 'js2-jsx-mode-hook 'flycheck-mode)
-
-;; js2-jsx-modeでauto-complete-modeを有効にする
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-								   (require 'auto-complete)
-								   (auto-complete-mode t)
-								   ))
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-modes 'js2-jsx-mode)
-
 ;; neotree
-(add-to-list 'load-path "~/.emacs.d/neotree")
 (require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-(setq neotree (if (display-graphic-p) 'icons 'arrow))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-	(markdown-preview-eww markdown-preview-mode pyenv-mode exec-path-from-shell auto-virtualenvwrapper virtualenvwrapper python-mode yasnippet-snippets neotree jedi flycheck ess atom-one-dark-theme ac-js2))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(global-set-key "\C-o" 'neotree-toggle)
 
-(setq markdown-command "pandoc")
-(autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
-(setq markdown-preview-stylesheets (list "github.css"))
+;; color theme
+(require 'rebecca-theme)
+(load-theme 'rebecca t)
