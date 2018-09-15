@@ -29,4 +29,7 @@ source ${ZSH_HOME}basic.zsh
 source ${ZSH_HOME}commands.zsh
 source ${ZSH_HOME}aliases.zsh
 source ${ZSH_HOME}python.zsh
+source ${ZSH_HOME}emacs.zsh
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
