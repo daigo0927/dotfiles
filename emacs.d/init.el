@@ -1,6 +1,5 @@
 (setq inhibit-startup-message 1)
 
-
 ;; specify base directory
 (when load-file-name
   (setq user-emacs-directory (file-name-directory load-file-name)))
@@ -41,19 +40,23 @@
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; helm - awesome tool
-(require 'helm-config)
-(helm-mode 1)
-(global-set-key (kbd "C-x C-r") 'helm-recentf) 
-(global-set-key (kbd "M-y") 'helm-show-kill-ring) 
-(global-set-key (kbd "M-r") 'helm-occur)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(define-key global-map (kbd "C-c i")   'helm-imenu)
+;; (require 'helm-config)
+;; (helm-mode 1)
+;; (global-set-key (kbd "C-x C-r") 'helm-recentf) 
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring) 
+;; (global-set-key (kbd "M-r") 'helm-occur)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (global-set-key (kbd "C-x b") 'helm-mini)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (define-key global-map (kbd "C-c i")   'helm-imenu)
 
-(require 'helm-swoop)
-(global-set-key (kbd "M-o") 'helm-swoop)
-(global-set-key (kbd "C-M-o") 'helm-multi-swoop)
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z')')')
+
+;; (require 'helm-swoop)
+;; (global-set-key (kbd "M-o") 'helm-swoop)
+;; (global-set-key (kbd "C-M-o") 'helm-multi-swoop)
 
 (require 'iedit)
 (global-set-key (kbd "C-x ;") 'iedit-mode)
@@ -80,3 +83,24 @@
 ;; color theme
 (require 'rebecca-theme)
 (load-theme 'rebecca t)
+
+;; markdown preview
+(require 'markdown-preview-mode)
+(autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
+;; use pandoc for markdown-preview
+(setq markdown-command "/usr/local/bin/pandoc")
+;; change looks
+(setq markdown-preview-stylesheets (list "github.css"))
+
+;; smartparens
+(require 'smartparens)
+(smartparens-global-mode t)
+
+;; undo-tree
+(require 'undo-tree)
+(global-undo-tree-mode t)
+(global-set-key (kbd "M-/") 'undo-tree-redo)
+
+;; change quit key to C-q
+(global-set-key (kbd "C-q") 'keyboard-quit)
+
