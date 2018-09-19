@@ -104,3 +104,19 @@
 ;; change quit key to C-q
 (global-set-key (kbd "C-q") 'keyboard-quit)
 
+;; highlight current row
+(global-hl-line-mode t)
+(custom-set-faces
+ '(hl-line) ((t (:background "color-236")))
+ )
+
+;; highlight parenthesis
+(show-paren-mode t)
+(setq show-paren-style 'parenthesis)
+(setq show-paren-style 'expression)
+(setq show-paren-style 'mixed)
+
+;; highlight target region
+(transient-mark-mode t)
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
