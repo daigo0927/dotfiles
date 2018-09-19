@@ -7,7 +7,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (markdown-preview-mode epc neotree python rebecca-theme smartparens undo-tree auto-complete markdown-mode iedit helm-swoop python-mode py-yapf py-autopep8 jedi helm flycheck))))
+    (volatile-highlights markdown-preview-mode epc neotree python rebecca-theme smartparens undo-tree auto-complete markdown-mode iedit helm-swoop python-mode py-yapf py-autopep8 jedi helm flycheck))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
