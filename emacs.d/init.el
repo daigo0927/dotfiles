@@ -119,3 +119,4 @@
 (transient-mark-mode t)
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
+
