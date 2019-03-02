@@ -120,3 +120,4 @@
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 
+(put 'set-goal-column 'disabled nil)
