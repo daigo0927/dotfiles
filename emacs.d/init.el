@@ -85,7 +85,6 @@
 (load-theme 'rebecca t)
 
 ;; markdown preview
-(require 'markdown-preview-mode)
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
 ;; use pandoc for markdown-preview
 (setq markdown-command "/usr/local/bin/pandoc")
