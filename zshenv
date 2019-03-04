@@ -1,4 +1,6 @@
-export LANG=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 # vim
 export XDG_CONFIG_HOME=~/.config
 # less
