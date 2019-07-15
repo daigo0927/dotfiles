@@ -1,4 +1,8 @@
+;; don't show staring message
 (setq inhibit-startup-message 1)
+
+;; user C-h as backspace
+(keyboard-translate ?\C-h ?\C-?)
 
 ;; specify base directory
 (when load-file-name
