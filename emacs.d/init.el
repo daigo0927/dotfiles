@@ -125,12 +125,16 @@
 (global-hl-line-mode t)
 
 ;; highlight parenthesis
-(show-paren-mode t)
+(show-paren-mode 1)
 ;; (setq show-paren-style 'parenthesis)
 ;; (setq show-paren-style 'expression)
 (setq show-paren-style 'mixed)
-(set-face-background 'show-paren-match-face "lightgreen")
-(set-face-foreground 'show-paren-match-face "navy")
+;; (set-face-background 'show-paren-match-face "lightgreen") ;; legacy setting
+;; (set-face-foreground 'show-paren-match-face "navy")
+(set-face-attribute 'show-paren-match nil
+                     :background "turquoise"
+                     :underline "turquoise")
+(add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
 (transient-mark-mode t)
