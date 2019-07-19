@@ -35,54 +35,54 @@
 (setq jedi:complete-on-dot t)
 
 ;; auto complete
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-;; (global-auto-complete-mode t)
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
 
-;; ;; py-yapf - auto format
-;; (require 'py-yapf)
-;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+;; py-yapf - auto format
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
-;; ;; jedi
-;; (setq load-path (cons "~/emacs.d/elpa" load-path))
-;; (require 'epc)
-;; (require 'auto-complete-config)
-;; (require 'python)
-;; (setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
-;; (require 'jedi)
-;; (add-hook 'python-mode-hook 'jedi:setup)
-;; (setq jedi:complete-on-dot t)
+;; jedi
+(setq load-path (cons "~/emacs.d/elpa" load-path))
+(require 'epc)
+(require 'auto-complete-config)
+(require 'python)
+(setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
+(require 'jedi)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 ;; company config
-(require 'company)
-(global-company-mode) ; activate all buffer
-(setq company-idle-delay 0) ;; Trigger completion immediately.
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
-;; Use the tab-and-go frontend.
-;; Allows TAB to select and complete at the same time.
-(company-tng-configure-default)
-(setq company-frontends
-      '(company-tng-frontend
-        company-pseudo-tooltip-frontend
-        company-echo-metadata-frontend))
+;; (require 'company)
+;; (global-company-mode) ; activate all buffer
+;; (setq company-idle-delay 0) ;; Trigger completion immediately.
+;; (setq company-minimum-prefix-length 2)
+;; (setq company-selection-wrap-around t)
+;; ;; Number the candidates (use M-1, M-2 etc to select completions).
+;; (setq company-show-numbers t)
+;; ;; Use the tab-and-go frontend.
+;; ;; Allows TAB to select and complete at the same time.
+;; (company-tng-configure-default)
+;; (setq company-frontends
+;;       '(company-tng-frontend
+;;         company-pseudo-tooltip-frontend
+;;         company-echo-metadata-frontend))
 
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
+;; (define-key company-active-map (kbd "M-n") nil)
+;; (define-key company-active-map (kbd "M-p") nil)
+;; (define-key company-active-map (kbd "C-n") 'company-select-next)
+;; (define-key company-active-map (kbd "C-p") 'company-select-previous)
+;; (define-key company-active-map (kbd "C-h") nil)
 
-;; company tabnine config
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+;; ;; company tabnine config
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 
-;; Company python mode
-(defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi))
-(add-hook 'python-mode-hook 'my/python-mode-hook)
+;; ;; Company python mode
+;; (defun my/python-mode-hook ()
+;;   (add-to-list 'company-backends 'company-jedi))
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
 (require 'iedit)
