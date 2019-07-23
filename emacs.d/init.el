@@ -115,3 +115,34 @@
 (global-set-key (kbd "C-c k") 'counsel-ag)
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+
+;; web-mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.ctp$"      . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js[x]?$"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?$"    . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml?$"  . web-mode))
+
+(setq web-mode-content-type-alist
+      '(("jsx" . "\\.js[x]?\\'")))
+
+;; indent
+(defun web-mode-hook ()
+  "Hooks for Web mode."
+  ;; indent
+  (setq web-mode-html-offset   2)
+  (setq web-mode-style-padding 2)
+  (setq web-mode-css-offset    2)
+  (setq web-mode-script-offset 2)
+  (setq web-mode-java-offset   2)
+  (setq web-mode-asp-offset    2)
+
+  ;; auto tag closing
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-auto-quoting t)
+  (setq web-mode-enable-auto-closing t)
+  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-tag-highlight t)
+)
+(add-hook 'web-mode-hook 'web-mode-hook)
