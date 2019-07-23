@@ -1,4 +1,6 @@
-;; don't show staring message
+;; Emacs setting
+
+;; don't show starting message
 (setq inhibit-startup-message 1)
 
 ;; user C-h as backspace
@@ -30,10 +32,6 @@
   (flycheck-mode 1))
 (add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
 
-;; jedi - completion for python
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-
 ;; auto complete
 (require 'auto-complete-config)
 (ac-config-default)
@@ -43,7 +41,7 @@
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
-;; jedi
+;; jedi - completion for python
 (setq load-path (cons "~/emacs.d/elpa" load-path))
 (require 'epc)
 (require 'auto-complete-config)
@@ -53,38 +51,7 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 
-;; company config
-;; (require 'company)
-;; (global-company-mode) ; activate all buffer
-;; (setq company-idle-delay 0) ;; Trigger completion immediately.
-;; (setq company-minimum-prefix-length 2)
-;; (setq company-selection-wrap-around t)
-;; ;; Number the candidates (use M-1, M-2 etc to select completions).
-;; (setq company-show-numbers t)
-;; ;; Use the tab-and-go frontend.
-;; ;; Allows TAB to select and complete at the same time.
-;; (company-tng-configure-default)
-;; (setq company-frontends
-;;       '(company-tng-frontend
-;;         company-pseudo-tooltip-frontend
-;;         company-echo-metadata-frontend))
-
-;; (define-key company-active-map (kbd "M-n") nil)
-;; (define-key company-active-map (kbd "M-p") nil)
-;; (define-key company-active-map (kbd "C-n") 'company-select-next)
-;; (define-key company-active-map (kbd "C-p") 'company-select-previous)
-;; (define-key company-active-map (kbd "C-h") nil)
-
-;; ;; company tabnine config
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
-
-;; ;; Company python mode
-;; (defun my/python-mode-hook ()
-;;   (add-to-list 'company-backends 'company-jedi))
-;; (add-hook 'python-mode-hook 'my/python-mode-hook)
-
-
+;; intelligent edit
 (require 'iedit)
 (global-set-key (kbd "C-x ;") 'iedit-mode)
 
@@ -93,10 +60,6 @@
   (lambda ()
     (setq imenu-create-index-function 'python-imenu-create-index)))
 
-
-;; neotree
-(require 'neotree)
-(global-set-key "\C-o" 'neotree-toggle)
 
 ;; color theme
 (require 'rebecca-theme)
@@ -126,11 +89,7 @@
 
 ;; highlight parenthesis
 (show-paren-mode 1)
-;; (setq show-paren-style 'parenthesis)
-;; (setq show-paren-style 'expression)
 (setq show-paren-style 'mixed)
-;; (set-face-background 'show-paren-match-face "lightgreen") ;; legacy setting
-;; (set-face-foreground 'show-paren-match-face "navy")
 (set-face-attribute 'show-paren-match nil
                      :background "turquoise"
                      :underline "turquoise")
@@ -142,3 +101,17 @@
 (volatile-highlights-mode t)
 
 (put 'set-goal-column 'disabled nil)
+
+;; ivy&counsel: completion interface
+(ivy-mode 1) ;; set default input completion to ivy
+(counsel-mode 1) ;; Remap basic command like (M-x, C-x, C-f, ...) to ivy
+
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
