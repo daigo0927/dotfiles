@@ -93,7 +93,7 @@
 (set-face-attribute 'show-paren-match nil
                      :background "turquoise"
                      :underline "turquoise")
-(add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
+;; (add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
 (transient-mark-mode t)

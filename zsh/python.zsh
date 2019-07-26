@@ -1,12 +1,3 @@
-export PYENV_ROOT="$HOME/.pyenv"
-if [ -d ${PYENV_ROOT} ]; then
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-  if [ -d ${PYENV_ROOT}/plugins/pyenv-virtualenv ]; then
-    eval "$(pyenv virtualenv-init -)"
-  fi
-fi
-
 if [ -x "`which pip`" ]; then
   function _pip_completion {
     local words cword
@@ -20,6 +11,8 @@ if [ -x "`which pip`" ]; then
 fi
 
 # aliases
-alias py="python"
+alias python="python3"
+alias python2="python2"
+alias py="python3"
 alias j="jupyter"
 
