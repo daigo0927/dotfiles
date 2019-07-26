@@ -46,7 +46,7 @@
 (require 'epc)
 (require 'auto-complete-config)
 (require 'python)
-(setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
+(setenv "PYTHONPATH" "~/.local/lib/python3.5/site-packages")
 (require 'jedi)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
