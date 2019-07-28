@@ -103,8 +103,12 @@
 (put 'set-goal-column 'disabled nil)
 
 ;; ivy&counsel: completion interface
+(require 'ivy)
 (ivy-mode 1) ;; set default input completion to ivy
 (counsel-mode 1) ;; Remap basic command like (M-x, C-x, C-f, ...) to ivy
+
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
 
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
