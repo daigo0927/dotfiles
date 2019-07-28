@@ -32,24 +32,68 @@
   (flycheck-mode 1))
 (add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
 
+;; jedi - completion for python
+(setq load-path (cons "~/emacs.d/elpa" load-path))
+(require 'epc)
+;; ;; (require 'auto-complete-config)
+(require 'python)
+(setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
+;; (require 'jedi)
+
 ;; auto complete
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode t)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (global-auto-complete-mode t)
+
+;; company mode
+(require 'company)
+(global-company-mode)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
+(setq company-selection-wrap-around t)
+
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-h") nil)
+
+;; company-jedi
+(require 'jedi-core)
+(setq jedi:complete-on-dot t)
+(setq jedi:use-shortcuts t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-to-list 'company-backends 'company-jedi) ; backendに追加
+
+;; company-tabnine
+(require 'company-tabnine)
+(add-to-list 'company-backends #'company-tabnine)
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+;; Use the tab-and-go frontend.
+;; Allows TAB to select and complete at the same time.
+(company-tng-configure-default)
+(setq company-frontends
+      '(company-tng-frontend
+        company-pseudo-tooltip-frontend
+        company-echo-metadata-frontend))
+
+;; lsp-setting
+(require 'lsp-mode)
+(add-hook 'python-mode-hook #'lsp)
+(require 'lsp-ui)
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-doc-header t)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(add-hook 'python-mode-hook 'flycheck-mode)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
 
 ;; py-yapf - auto format
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
-
-;; jedi - completion for python
-(setq load-path (cons "~/emacs.d/elpa" load-path))
-(require 'epc)
-(require 'auto-complete-config)
-(require 'python)
-(setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
-(require 'jedi)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
 
 ;; intelligent edit
 (require 'iedit)
@@ -59,7 +103,6 @@
 (add-hook 'python-mode-hook
   (lambda ()
     (setq imenu-create-index-function 'python-imenu-create-index)))
-
 
 ;; color theme
 (require 'rebecca-theme)
