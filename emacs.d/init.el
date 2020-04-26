@@ -193,3 +193,4 @@
   (setq web-mode-tag-highlight t)
 )
 (add-hook 'web-mode-hook 'web-mode-hook)
+(put 'dired-find-alternate-file 'disabled nil)
