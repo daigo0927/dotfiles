@@ -31,6 +31,7 @@ source ${ZSH_HOME}aliases.zsh
 source ${ZSH_HOME}python.zsh
 source ${ZSH_HOME}emacs.zsh
 source ${ZSH_HOME}ruby.zsh
+source ${ZSH_HOME}go.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
