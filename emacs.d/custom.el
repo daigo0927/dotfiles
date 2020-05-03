@@ -15,6 +15,8 @@
  ;; If there is more than one, they won't work right.
  '(font-lock-comment-face ((t (:foreground "color-46"))))
  '(font-lock-doc-face ((t (:foreground "brightcyan"))))
+ '(font-lock-type-face ((t (:foreground "color-183"))))
+ '(font-lock-variable-name-face ((t (:foreground "color-189"))))
  '(show-paren-match ((t (:background "color-51" :underline "turquoise"))))
  '(web-mode-current-element-highlight-face ((t (:background "color-41" :foreground "green")))))
 

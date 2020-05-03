@@ -111,6 +111,9 @@
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
 
+(require 'go-eldoc) ;; Don't need to require, if you install by package.el
+(add-hook 'go-mode-hook 'go-eldoc-setup)
+
 ;; intelligent edit
 (require 'iedit)
 (global-set-key (kbd "C-x ;") 'iedit-mode)
