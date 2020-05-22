@@ -40,6 +40,11 @@
 (setenv "PYTHONPATH" "~/.pyenv/versions/3.6.5/lib/python3.6/site-packages")
 ;; (require 'jedi)
 
+;; load environment value
+(load-file (expand-file-name "~/.emacs.d/shellenv.el"))
+(dolist (path (reverse (split-string (getenv "PATH") ":")))
+  (add-to-list 'exec-path path))
+
 ;; auto complete
 ;; (require 'auto-complete-config)
 ;; (ac-config-default)
