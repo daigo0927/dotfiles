@@ -75,3 +75,6 @@
   trustExitCode = true
   cmd = open -W -a Meld --args --auto-merge \"$LOCAL\" \"$BASE\" \"$REMOTE\" --output=\"$MERGED\"
 
+[user]
+	name = Daigo Hirooka
+	email = daigo.hirooka@gmail.com
