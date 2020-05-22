@@ -56,7 +56,7 @@ BULLETTRAIN_GIT_COLORIZE_DIRTY=true
 BULLETTRAIN_GIT_BG=green
 BULLETTRAIN_GIT_COLORIZE_DIRTY_BG_COLOR=yellow
 
-Install plugins if there are plugins that have not been installed
+# Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
   printf "Install(zplug)? [y/N]: "
     if read -q; then
