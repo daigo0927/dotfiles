@@ -19,6 +19,9 @@ if [ -x "`which pip`" ]; then
   compctl -K _pip_completion pip
 fi
 
+# poetry path
+export PATH="$HOME/.poetry/bin:$PATH"
+
 # aliases
 alias py="python"
 alias j="jupyter"
