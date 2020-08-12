@@ -1,5 +1,5 @@
 if [ "$(uname)" = "Darwin" ]; then
-   alias emacs="emacs"
+   alias emacs="emacs -nw"
 else # Linux
 fi
 
