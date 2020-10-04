@@ -52,6 +52,9 @@ fi
 if [ -x "`which bat`" ]; then
   alias cat="bat"
 fi
+if [ -x "`which lazydocker`" ]; then
+    alias lzd="lazydocker"
+fi
 
 # programming languages
 # ----------
