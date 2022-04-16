@@ -90,7 +90,7 @@
   (require 'go-autocomplete)
 
   ;; company-mode
-  ;; (add-to-list 'company-backends 'company-go)
+  (add-to-list 'company-backends 'company-go)
 
   ;; eldoc
   (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -206,7 +206,7 @@
 (add-to-list 'exec-path (expand-file-name "/PATH/TO"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 
-;;; #rust
+;;; rust
 (use-package rust-mode
   :ensure t
   :custom rust-format-on-save t)
@@ -216,7 +216,7 @@
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
 
-;;; #lsp
+;;; lsp-mode
 (use-package lsp-mode
   :ensure t
   :init (yas-global-mode)
