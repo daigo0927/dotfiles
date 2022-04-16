@@ -29,6 +29,12 @@
 (package-initialize)
 (fset 'package-desc-vers 'package--ac-desc-version)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
 ;; custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
