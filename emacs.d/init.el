@@ -37,7 +37,7 @@
 (require 'epc)
 ;; ;; (require 'auto-complete-config)
 (require 'python)
-(setenv "PYTHONPATH" "~/.pyenv/versions/*/lib/python3.7/site-packages")
+;; (setenv "PYTHONPATH" "~/.pyenv/versions/*/lib/python3.7/site-packages")
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -56,13 +56,6 @@
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
-
-;; company-jedi
-(require 'jedi-core)
-(setq jedi:complete-on-dot t)
-(setq jedi:use-shortcuts t)
-(add-hook 'python-mode-hook 'jedi:setup)
-(add-to-list 'company-backends 'company-jedi) ; backendに追加
 
 ;; company-tabnine
 (require 'company-tabnine)
@@ -91,8 +84,8 @@
 (push 'company-lsp company-backends)
 
 ;; py-yapf - auto format
-(require 'py-yapf)
-(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+;; (require 'py-yapf)
+;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; go settings
 ;; https://emacs-jp.github.io/programming/golang
@@ -101,7 +94,7 @@
   (require 'go-autocomplete)
 
   ;; company-mode
-  (add-to-list 'company-backends 'company-go)
+  ;; (add-to-list 'company-backends 'company-go)
 
   ;; eldoc
   (add-hook 'go-mode-hook 'go-eldoc-setup)
