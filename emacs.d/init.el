@@ -235,7 +235,7 @@
 (use-package lsp-mode
   :ensure t
   :init (yas-global-mode)
-  :hook ((python-mode rust-mode) . lsp)
+  :hook (rust-mode . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
 
