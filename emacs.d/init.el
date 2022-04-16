@@ -44,6 +44,7 @@
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
+(use-package pyenv-mode)
 
 ;; flycheck - syntax checker
 (use-package flycheck
