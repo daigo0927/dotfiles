@@ -63,13 +63,21 @@
 	   (company-minimum-prefix-length 2)
 	   (company-selection-wrap-around t)
 	   (company-show-numbers          t))
+  :bind
+  (:map company-active-map
+	("M-n" . nil)
+	("M-p" . nil)
+	("C-n" . 'company-select-next)
+	("C-p" . 'company-select-previous)
+	("C-h" . nil))
+  (:map company-search-map
+	("C-n" . 'company-select-next)
+	("C-p" . 'company-select-previous)
+	("C-h" . 'company-search-delete-char)
+	("<space>" . nil)
+	("RET" . 'company-complete-selection)
+	("<return>" . 'company-complete-selection))
   )
-
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
 
 ;; Use the tab-and-go frontend.
 ;; Allows TAB to select and complete at the same time.
