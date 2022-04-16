@@ -18,6 +18,8 @@
 (when load-file-name
   (setq user-emacs-directory (file-name-directory load-file-name)))
 
+(setq gc-cons-threshold 12800000)
+
 ;; package management
 (require 'package)
 (setq package-archives
@@ -247,8 +249,6 @@
 	   (lsp-ui-flycheck-live-reporting t)
 	   (lsp-ui-sideline-enable         nil)))
 
-;; (require 'company-lsp)
-;; (push 'company-lsp company-backends)
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
