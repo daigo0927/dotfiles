@@ -22,9 +22,7 @@
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-		("nongnu" . "https://elpa.nongnu.org/nongnu/")
         ("melpa" . "http://melpa.org/packages/")
-        ("emacswiki" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/emacswiki/")
         ))
 (package-initialize)
 (fset 'package-desc-vers 'package--ac-desc-version)
@@ -96,8 +94,6 @@
 (use-package company-tabnine
   :ensure t
   :config (add-to-list 'company-backends #'company-tabnine))
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
 
 ;; py-yapf - auto format
 (require 'py-yapf)
