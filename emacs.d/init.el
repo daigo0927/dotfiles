@@ -212,3 +212,27 @@
 )
 (add-hook 'web-mode-hook 'web-mode-hook)
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; rust setting (from https://emacs-jp.github.io/env/rust)
+(add-to-list 'exec-path (expand-file-name "/PATH/TO"))
+(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
+
+;;; #rust
+(use-package rust-mode
+  :ensure t
+  :custom rust-format-on-save t)
+
+
+(use-package cargo
+  :ensure t
+  :hook (rust-mode . cargo-minor-mode))
+
+;;; #lsp
+(use-package lsp-mode
+  :ensure t
+  :init (yas-global-mode)
+  :hook (rust-mode . lsp)
+  :bind ("C-c h" . lsp-describe-thing-at-point)
+  :custom (lsp-rust-server 'rust-analyzer))
+(use-package lsp-ui
+  :ensure t)
