@@ -11,6 +11,9 @@
 ;; user C-h as backspace
 (keyboard-translate ?\C-h ?\C-?)
 
+;; Ignore 'Package cl is duplicated' message
+(setq byte-compile-warnings '(not cl-functions obsolete))
+
 ;; specify base directory
 (when load-file-name
   (setq user-emacs-directory (file-name-directory load-file-name)))
@@ -228,3 +231,9 @@
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 (require 'company-lsp)
 (push 'company-lsp company-backends)
+
+;; Local Variables:
+;; byte-compile-warnings: (not cl-functions obsolete)
+;; End:
+
+;;; init.el ends here
