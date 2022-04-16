@@ -34,10 +34,6 @@
 
 ;; jedi - completion for python
 (setq load-path (cons "~/emacs.d/elpa" load-path))
-(require 'epc)
-;; ;; (require 'auto-complete-config)
-(require 'python)
-;; (setenv "PYTHONPATH" "~/.pyenv/versions/*/lib/python3.7/site-packages")
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
