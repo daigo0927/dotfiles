@@ -80,8 +80,8 @@
 (push 'company-lsp company-backends)
 
 ;; py-yapf - auto format
-;; (require 'py-yapf)
-;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; go settings
 ;; https://emacs-jp.github.io/programming/golang
