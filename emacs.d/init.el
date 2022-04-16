@@ -1,6 +1,11 @@
-;; Emacs setting
+;;; init.el --- Emacs init file
 
-;; don't show starting message
+;; Created by daigo0927
+;;; Commentary:
+
+;;; Code:
+
+;;; don't show starting message
 (setq inhibit-startup-message 1)
 
 ;; user C-h as backspace
@@ -27,10 +32,9 @@
 (add-to-list 'auto-mode-alist '("\\\.py\\\'" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;; flycheck - error check
-(defun my/turn-on-flycheck-mode ()
-  (flycheck-mode 1))
-(add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
+;; flycheck - syntax checker
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; jedi - completion for python
 (setq load-path (cons "~/emacs.d/elpa" load-path))
@@ -222,6 +226,5 @@
 (setq lsp-ui-doc-enable t)
 (setq lsp-ui-doc-header t)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(add-hook 'python-mode-hook 'flycheck-mode)
 (require 'company-lsp)
 (push 'company-lsp company-backends)
