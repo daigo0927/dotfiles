@@ -78,7 +78,6 @@
 	("RET" . 'company-complete-selection)
 	("<return>" . 'company-complete-selection))
   )
-
 ;; Use the tab-and-go frontend.
 ;; Allows TAB to select and complete at the same time.
 (company-tng-configure-default)
@@ -87,9 +86,18 @@
         company-pseudo-tooltip-frontend
         company-echo-metadata-frontend))
 
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode)
+  :custom (company-box-iconsalist 'company-box-icons-all-the-icons)
+  )
+
 ;; company-tabnine
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+(use-package company-tabnine
+  :ensure t
+  :config (add-to-list 'company-backends #'company-tabnine))
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 
 ;; py-yapf - auto format
 (require 'py-yapf)
