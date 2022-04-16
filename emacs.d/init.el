@@ -20,10 +20,14 @@
 
 ;; package management
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(fset 'package-desc-vers 'package--ac-desc-version)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+		("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("emacswiki" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/emacswiki/")
+        ))
 (package-initialize)
+(fset 'package-desc-vers 'package--ac-desc-version)
 
 ;; custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
