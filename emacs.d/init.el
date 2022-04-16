@@ -105,7 +105,7 @@
   (require 'go-autocomplete)
 
   ;; company-mode
-  (add-to-list 'company-backends 'company-go)
+  ;; (add-to-list 'company-backends 'company-go)
 
   ;; eldoc
   (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -247,8 +247,8 @@
 	   (lsp-ui-flycheck-live-reporting t)
 	   (lsp-ui-sideline-enable         nil)))
 
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
