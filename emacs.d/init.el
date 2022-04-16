@@ -56,11 +56,14 @@
   (add-to-list 'exec-path path))
 
 ;; company mode
-(require 'company)
-(global-company-mode)
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
+(use-package company
+  :ensure t
+  :config (global-company-mode)
+  :custom ((company-idle-delay            0)
+	   (company-minimum-prefix-length 2)
+	   (company-selection-wrap-around t)
+	   (company-show-numbers          t))
+  )
 
 (define-key company-active-map (kbd "M-n") nil)
 (define-key company-active-map (kbd "M-p") nil)
@@ -68,13 +71,6 @@
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
 
-;; company-tabnine
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
-;; Trigger completion immediately.
-(setq company-idle-delay 0)
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
 ;; Use the tab-and-go frontend.
 ;; Allows TAB to select and complete at the same time.
 (company-tng-configure-default)
@@ -82,6 +78,10 @@
       '(company-tng-frontend
         company-pseudo-tooltip-frontend
         company-echo-metadata-frontend))
+
+;; company-tabnine
+(require 'company-tabnine)
+(add-to-list 'company-backends #'company-tabnine)
 
 ;; py-yapf - auto format
 (require 'py-yapf)
