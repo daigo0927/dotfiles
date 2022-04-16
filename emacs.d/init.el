@@ -68,23 +68,11 @@
         company-pseudo-tooltip-frontend
         company-echo-metadata-frontend))
 
-;; lsp-setting
-(require 'lsp-mode)
-(add-hook 'python-mode-hook #'lsp)
-(require 'lsp-ui)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-header t)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(add-hook 'python-mode-hook 'flycheck-mode)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-
 ;; py-yapf - auto format
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
-;; go settings
-;; https://emacs-jp.github.io/programming/golang
+;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
   ;; auto-complete
   (require 'go-autocomplete)
@@ -211,17 +199,29 @@
   :ensure t
   :custom rust-format-on-save t)
 
-
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
 
+
+;;; LSP: language server protocol settings ;;;
 ;;; lsp-mode
 (use-package lsp-mode
   :ensure t
   :init (yas-global-mode)
-  :hook (rust-mode . lsp)
+  :hook ((python-mode
+	  rust-mode)
+	 . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
 (use-package lsp-ui
   :ensure t)
+
+;; lsp-setting (old)
+(require 'lsp-ui)
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-doc-header t)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(add-hook 'python-mode-hook 'flycheck-mode)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
