@@ -41,9 +41,9 @@
   (load custom-file))
 
 ;; python major mode
-(require 'python-mode)
-(add-to-list 'auto-mode-alist '("\\\.py\\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode))
 
 ;; flycheck - syntax checker
 (use-package flycheck
@@ -218,25 +218,23 @@
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
 
-
 ;;; LSP: language server protocol settings ;;;
 ;;; lsp-mode
 (use-package lsp-mode
   :ensure t
   :init (yas-global-mode)
-  :hook ((python-mode
-	  rust-mode)
-	 . lsp)
+  :hook ((python-mode rust-mode) . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
-(use-package lsp-ui
-  :ensure t)
 
-;; lsp-setting (old)
-(require 'lsp-ui)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-header t)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(use-package lsp-ui
+  :ensure t
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom ((lsp-ui-doc-enable              nil)
+	   (lsp-ui-doc-header              t)
+	   (lsp-ui-flycheck-live-reporting t)
+	   (lsp-ui-sideline-enable         nil)))
+
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
