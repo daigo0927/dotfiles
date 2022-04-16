@@ -36,8 +36,9 @@
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
 ;; flycheck - syntax checker
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 ;; jedi - completion for python
 (setq load-path (cons "~/emacs.d/elpa" load-path))
