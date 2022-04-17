@@ -250,6 +250,12 @@
 	   (lsp-ui-flycheck-live-reporting t)
 	   (lsp-ui-sideline-enable         nil)))
 
+(use-package dockerfile-mode :ensure t)
+
+(use-package docker-compose-mode :ensure t)
+
+(use-package yaml-mode :ensure t)
+
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
