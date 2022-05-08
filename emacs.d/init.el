@@ -1,21 +1,39 @@
-;; Emacs setting
+;;; init.el --- Emacs init file
 
-;; don't show starting message
+;; Created by daigo0927
+;;; Commentary:
+
+;;; Code:
+
+;;; don't show starting message
 (setq inhibit-startup-message 1)
 
 ;; user C-h as backspace
 (keyboard-translate ?\C-h ?\C-?)
 
+;; Ignore 'Package cl is duplicated' message
+(setq byte-compile-warnings '(not cl-functions obsolete))
+
 ;; specify base directory
 (when load-file-name
   (setq user-emacs-directory (file-name-directory load-file-name)))
 
+(setq gc-cons-threshold 12800000)
+
 ;; package management
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(fset 'package-desc-vers 'package--ac-desc-version)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
+        ))
 (package-initialize)
+(fset 'package-desc-vers 'package--ac-desc-version)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
 ;; custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -23,21 +41,15 @@
   (load custom-file))
 
 ;; python major mode
-(require 'python-mode)
-(add-to-list 'auto-mode-alist '("\\\.py\\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode))
+(use-package pyenv-mode)
 
-;; flycheck - error check
-(defun my/turn-on-flycheck-mode ()
-  (flycheck-mode 1))
-(add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
-
-;; jedi - completion for python
-(setq load-path (cons "~/emacs.d/elpa" load-path))
-(require 'epc)
-;; ;; (require 'auto-complete-config)
-(require 'python)
-(setenv "PYTHONPATH" "~/.pyenv/versions/*/lib/python3.7/site-packages")
+;; flycheck - syntax checker
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -45,32 +57,28 @@
   (add-to-list 'exec-path path))
 
 ;; company mode
-(require 'company)
-(global-company-mode)
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
-
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
-
-;; company-jedi
-(require 'jedi-core)
-(setq jedi:complete-on-dot t)
-(setq jedi:use-shortcuts t)
-(add-hook 'python-mode-hook 'jedi:setup)
-(add-to-list 'company-backends 'company-jedi) ; backendに追加
-
-;; company-tabnine
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
-;; Trigger completion immediately.
-(setq company-idle-delay 0)
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
+(use-package company
+  :ensure t
+  :config (global-company-mode)
+  :custom ((company-idle-delay            0)
+	   (company-minimum-prefix-length 2)
+	   (company-selection-wrap-around t)
+	   (company-show-numbers          t))
+  :bind
+  (:map company-active-map
+	("M-n" . nil)
+	("M-p" . nil)
+	("C-n" . 'company-select-next)
+	("C-p" . 'company-select-previous)
+	("C-h" . nil))
+  (:map company-search-map
+	("C-n" . 'company-select-next)
+	("C-p" . 'company-select-previous)
+	("C-h" . 'company-search-delete-char)
+	("<space>" . nil)
+	("RET" . 'company-complete-selection)
+	("<return>" . 'company-complete-selection))
+  )
 ;; Use the tab-and-go frontend.
 ;; Allows TAB to select and complete at the same time.
 (company-tng-configure-default)
@@ -79,29 +87,28 @@
         company-pseudo-tooltip-frontend
         company-echo-metadata-frontend))
 
-;; lsp-setting
-(require 'lsp-mode)
-(add-hook 'python-mode-hook #'lsp)
-(require 'lsp-ui)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-header t)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(add-hook 'python-mode-hook 'flycheck-mode)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode)
+  :custom (company-box-iconsalist 'company-box-icons-all-the-icons)
+  )
+
+;; company-tabnine
+(use-package company-tabnine
+  :ensure t
+  :config (add-to-list 'company-backends #'company-tabnine))
 
 ;; py-yapf - auto format
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
-;; go settings
-;; https://emacs-jp.github.io/programming/golang
+;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
   ;; auto-complete
   (require 'go-autocomplete)
 
   ;; company-mode
-  (add-to-list 'company-backends 'company-go)
+  ;; (add-to-list 'company-backends 'company-go)
 
   ;; eldoc
   (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -214,25 +221,44 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; rust setting (from https://emacs-jp.github.io/env/rust)
-(add-to-list 'exec-path (expand-file-name "/PATH/TO"))
+(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 
-;;; #rust
+;;; rust
 (use-package rust-mode
   :ensure t
   :custom rust-format-on-save t)
-
 
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
 
-;;; #lsp
+;;; LSP: language server protocol settings ;;;
+;;; lsp-mode
 (use-package lsp-mode
   :ensure t
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
+
 (use-package lsp-ui
-  :ensure t)
+  :ensure t
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom ((lsp-ui-doc-enable              nil)
+	   (lsp-ui-doc-header              t)
+	   (lsp-ui-flycheck-live-reporting t)
+	   (lsp-ui-sideline-enable         nil)))
+
+(use-package dockerfile-mode :ensure t)
+
+(use-package docker-compose-mode :ensure t)
+
+(use-package yaml-mode :ensure t)
+
+
+;; Local Variables:
+;; byte-compile-warnings: (not cl-functions obsolete)
+;; End:
+
+;;; init.el ends here
