@@ -221,7 +221,7 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; rust setting (from https://emacs-jp.github.io/env/rust)
-(add-to-list 'exec-path (expand-file-name "/PATH/TO"))
+(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
 
 ;;; rust
