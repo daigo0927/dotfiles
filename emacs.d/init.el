@@ -200,6 +200,17 @@
 
 (put 'set-goal-column 'disabled nil)
 
+;; all-the-icons
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p)
+  )
+
+(use-package all-the-icons-dired
+  :ensure t
+  :if (display-graphic-p)
+  :hook (dired-mode . all-the-icons-dired-mode))
+
 ;; ivy&counsel: completion interface
 (require 'ivy)
 (ivy-mode 1) ;; set default input completion to ivy
