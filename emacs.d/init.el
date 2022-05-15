@@ -61,11 +61,10 @@
   :ensure t
   :init (global-diff-hl-mode)
 
-  :hook (diff-hl-mode . (lambda ()
-			  (unless (window-system)
-			    (diff-hl-margin-local-mode))
-			  )
-		      )
+  :hook
+  (unless (window-system)
+    (diff-hl-mode . diff-hl-margin-local-mode)
+    )
   )
 
 ;; company mode
