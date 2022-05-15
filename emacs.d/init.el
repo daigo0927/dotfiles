@@ -98,8 +98,8 @@
   :config (add-to-list 'company-backends #'company-tabnine))
 
 ;; py-yapf - auto format
-(require 'py-yapf)
-(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+;; (require 'py-yapf)
+;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
