@@ -156,6 +156,10 @@
                      :background "turquoise"
                      :underline "turquoise")
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
+
 (add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
