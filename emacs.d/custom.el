@@ -13,7 +13,7 @@
  '(company-show-quick-access t nil nil "Customized with use-package company")
  '(frame-background-mode 'dark)
  '(package-selected-packages
-   '(all-the-icons all-the-icons-dired highlight-indent-guides diminish company-quickhelp company-quickhelp-terminal rainbow-delimiters docker-compose-mode dockerfile-mode rust-mode cargo cargo-mode pandoc go-autocomplete go-eldoc go-mode yaml-mode web-mode yasnippet company-lsp helm-lsp lsp-python lsp-sh lsp-ui lsp-mode multi-web-mode counsel company-tabnine company company-anaconda volatile-highlights markdown-preview-mode neotree python rebecca-theme smartparens undo-tree markdown-mode iedit helm-swoop python-mode helm flycheck)))
+   '(diff-hl all-the-icons all-the-icons-dired highlight-indent-guides diminish company-quickhelp company-quickhelp-terminal rainbow-delimiters docker-compose-mode dockerfile-mode rust-mode cargo cargo-mode pandoc go-autocomplete go-eldoc go-mode yaml-mode web-mode yasnippet company-lsp helm-lsp lsp-python lsp-sh lsp-ui lsp-mode multi-web-mode counsel company-tabnine company company-anaconda volatile-highlights markdown-preview-mode neotree python rebecca-theme smartparens undo-tree markdown-mode iedit helm-swoop python-mode helm flycheck)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
