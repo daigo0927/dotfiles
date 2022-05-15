@@ -58,6 +58,7 @@
 ;; company mode
 (use-package company
   :ensure t
+  :diminish company-mode
   :config (global-company-mode)
   :custom ((company-idle-delay            0)
 	   (company-minimum-prefix-length 2)
@@ -69,7 +70,8 @@
 	("M-p" . nil)
 	("C-n" . 'company-select-next)
 	("C-p" . 'company-select-previous)
-	("C-h" . nil))
+	("C-h" . nil)
+	("<tab>" . company-complete-common-or-cycle))
   (:map company-search-map
 	("C-n" . 'company-select-next)
 	("C-p" . 'company-select-previous)
@@ -78,12 +80,6 @@
 	("RET" . 'company-complete-selection)
 	("<return>" . 'company-complete-selection))
   )
-;; Use the tab-and-go frontend.
-;; Allows TAB to select and complete at the same time.
-(setq company-frontends
-      '(company-tng-frontend
-        company-pseudo-tooltip-frontend
-        company-echo-metadata-frontend))
 
 (use-package company-box
   :ensure t
@@ -159,6 +155,7 @@
 (set-face-attribute 'show-paren-match nil
                      :background "turquoise"
                      :underline "turquoise")
+
 (add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
