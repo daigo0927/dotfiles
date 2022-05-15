@@ -172,6 +172,8 @@
                      :underline "turquoise")
 
 (use-package rainbow-delimiters
+  :ensure t
+  :disabled
   :hook (prog-mode . rainbow-delimiters-mode)
   )
 
