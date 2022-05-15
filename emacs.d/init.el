@@ -40,11 +40,12 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(use-package diminish :ensure t)
+
 ;; python major mode
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
-(use-package pyenv-mode)
 
 ;; flycheck - syntax checker
 (use-package flycheck
@@ -56,21 +57,40 @@
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 
+(use-package diff-hl
+  :ensure t
+  :init (global-diff-hl-mode)
+
+  :hook
+  (unless (window-system)
+    (diff-hl-mode . diff-hl-margin-local-mode)
+    )
+  )
+
 ;; company mode
 (use-package company
   :ensure t
-  :config (global-company-mode)
-  :custom ((company-idle-delay            0)
-	   (company-minimum-prefix-length 2)
-	   (company-selection-wrap-around t)
-	   (company-show-numbers          t))
+  :diminish company-mode
+
+  :custom
+  (company-idle-delay            0)
+  (company-minimum-prefix-length 2)
+  (company-selection-wrap-around t)
+  (company-show-numbers          t)
+  (company-tng-auto-configure  nil)
+
+  :config
+  (global-company-mode)
+  (company-tng-mode)
+
   :bind
   (:map company-active-map
 	("M-n" . nil)
 	("M-p" . nil)
 	("C-n" . 'company-select-next)
 	("C-p" . 'company-select-previous)
-	("C-h" . nil))
+	("C-h" . nil)
+	("<tab>" . company-complete-common-or-cycle))
   (:map company-search-map
 	("C-n" . 'company-select-next)
 	("C-p" . 'company-select-previous)
@@ -78,19 +98,18 @@
 	("<space>" . nil)
 	("RET" . 'company-complete-selection)
 	("<return>" . 'company-complete-selection))
-  )
-;; Use the tab-and-go frontend.
-;; Allows TAB to select and complete at the same time.
-(company-tng-configure-default)
-(setq company-frontends
-      '(company-tng-frontend
-        company-pseudo-tooltip-frontend
-        company-echo-metadata-frontend))
 
-(use-package company-box
-  :ensure t
-  :hook (company-mode . company-box-mode)
-  :custom (company-box-iconsalist 'company-box-icons-all-the-icons)
+  :config
+  ;; Show pretty icons
+  (use-package company-box
+    :diminish
+    :hook (company-mode . company-box-mode)
+    :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+    :config
+    (setq company-box-backends-colors nil)
+    (setq company-box-show-single-candidate t)
+    (setq company-box-max-candidates 50)
+    )
   )
 
 ;; company-tabnine
@@ -99,8 +118,8 @@
   :config (add-to-list 'company-backends #'company-tabnine))
 
 ;; py-yapf - auto format
-(require 'py-yapf)
-(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+;; (require 'py-yapf)
+;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
@@ -161,6 +180,27 @@
 (set-face-attribute 'show-paren-match nil
                      :background "turquoise"
                      :underline "turquoise")
+
+(use-package rainbow-delimiters
+  :ensure t
+  :disabled
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
+
+;; highlight indent
+(use-package highlight-indent-guides
+  :ensure t
+  :diminish highlight-indent-guides-mode
+  
+  :hook
+  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive t)
+  (highlight-indent-guides-suppress-auto-error t)
+  )
+
 (add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
@@ -169,6 +209,17 @@
 (volatile-highlights-mode t)
 
 (put 'set-goal-column 'disabled nil)
+
+;; all-the-icons
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p)
+  )
+
+(use-package all-the-icons-dired
+  :ensure t
+  :if (display-graphic-p)
+  :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; ivy&counsel: completion interface
 (require 'ivy)
@@ -255,7 +306,6 @@
 (use-package docker-compose-mode :ensure t)
 
 (use-package yaml-mode :ensure t)
-
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
