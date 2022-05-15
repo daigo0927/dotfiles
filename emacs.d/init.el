@@ -40,6 +40,8 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(use-package diminish :ensure t)
+
 ;; python major mode
 (use-package python
   :mode ("\\.py\\'" . python-mode)
@@ -59,11 +61,18 @@
 (use-package company
   :ensure t
   :diminish company-mode
-  :config (global-company-mode)
-  :custom ((company-idle-delay            0)
-	   (company-minimum-prefix-length 2)
-	   (company-selection-wrap-around t)
-	   (company-show-numbers          t))
+
+  :custom
+  (company-idle-delay            0)
+  (company-minimum-prefix-length 2)
+  (company-selection-wrap-around t)
+  (company-show-numbers          t)
+  (company-tng-auto-configure  nil)
+
+  :config
+  (global-company-mode)
+  (company-tng-mode)
+
   :bind
   (:map company-active-map
 	("M-n" . nil)
@@ -79,12 +88,18 @@
 	("<space>" . nil)
 	("RET" . 'company-complete-selection)
 	("<return>" . 'company-complete-selection))
-  )
 
-(use-package company-box
-  :ensure t
-  :hook (company-mode . company-box-mode)
-  :custom (company-box-iconsalist 'company-box-icons-all-the-icons)
+  :config
+  ;; Show pretty icons
+  (use-package company-box
+    :diminish
+    :hook (company-mode . company-box-mode)
+    :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+    :config
+    (setq company-box-backends-colors nil)
+    (setq company-box-show-single-candidate t)
+    (setq company-box-max-candidates 50)
+    )
   )
 
 ;; company-tabnine
@@ -254,7 +269,6 @@
 (use-package docker-compose-mode :ensure t)
 
 (use-package yaml-mode :ensure t)
-
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
