@@ -175,6 +175,20 @@
   :hook (prog-mode . rainbow-delimiters-mode)
   )
 
+;; highlight indent
+(use-package highlight-indent-guides
+  :ensure t
+  :diminish highlight-indent-guides-mode
+  
+  :hook
+  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive t)
+  (highlight-indent-guides-suppress-auto-error t)
+  )
+
 (add-hook 'prog-mode-hook #'display-line-numbers-mode) ;; show row numbers
 
 ;; highlight target region
