@@ -307,6 +307,18 @@
 
 (use-package yaml-mode :ensure t)
 
+;; Terraform
+(use-package company-terraform
+  :ensure t
+  :config (company-terraform-init)
+  )
+(use-package terraform-mode
+  :ensure t
+  :custom (terraform-format-on-save-mode t)
+  :hook (terraform-mode . company-mode)
+  )
+(use-package terraform-doc :ensure t)
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
 ;; End:
