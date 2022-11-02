@@ -99,17 +99,17 @@
 	("RET" . 'company-complete-selection)
 	("<return>" . 'company-complete-selection))
 
-  :config
-  ;; Show pretty icons
-  (use-package company-box
-    :diminish
-    :hook (company-mode . company-box-mode)
-    :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-    :config
-    (setq company-box-backends-colors nil)
-    (setq company-box-show-single-candidate t)
-    (setq company-box-max-candidates 50)
-    )
+  ;; :config
+  ;; Show pretty icons <- disable for suppress company-box unexistent bug
+  ;; (use-package company-box
+    ;; :diminish
+    ;; : hook (company-mode . company-box-mode)
+    ;; :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+    ;; :config
+    ;; (setq company-box-backends-colors nil)
+    ;; (setq company-box-show-single-candidate t)
+    ;; (setq company-box-max-candidates 50)
+    ;; )
   )
 
 ;; company-tabnine
@@ -191,10 +191,10 @@
 (use-package highlight-indent-guides
   :ensure t
   :diminish highlight-indent-guides-mode
-  
+
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  
+
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive t)
