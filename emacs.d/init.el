@@ -301,6 +301,12 @@
 	   (lsp-ui-flycheck-live-reporting t)
 	   (lsp-ui-sideline-enable         nil)))
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+			 (require 'lsp-pyright)
+                         (lsp))))  ; or lsp-deferred)
+
 (use-package dockerfile-mode :ensure t)
 
 (use-package docker-compose-mode :ensure t)
