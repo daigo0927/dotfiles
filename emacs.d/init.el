@@ -50,7 +50,8 @@
 ;; flycheck - syntax checker
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+)
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -113,9 +114,9 @@
   )
 
 ;; company-tabnine
-(use-package company-tabnine
-  :ensure t
-  :config (add-to-list 'company-backends #'company-tabnine))
+;; (use-package company-tabnine
+;;   :ensure t
+;;   :config (add-to-list 'company-backends #'company-tabnine))
 
 ;; py-yapf - auto format
 ;; (require 'py-yapf)
@@ -291,7 +292,10 @@
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
-  :custom (lsp-rust-server 'rust-analyzer))
+  :custom ((lsp-rust-server 'rust-analyzer)
+	   (lsp-diagnostics-flycheck-default-level warning)
+	   )
+  )
 
 (use-package lsp-ui
   :ensure t
