@@ -16,3 +16,4 @@ if [ -x "`which go`" ]; then
   export PATH=$PATH:$GOROOT/bin
 fi
 
+. "$HOME/.cargo/env"
