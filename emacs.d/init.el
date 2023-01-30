@@ -156,7 +156,7 @@
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
 ;; use pandoc for markdown-preview
-(setq markdown-command "/usr/local/bin/pandoc")
+;; (setq markdown-command "/usr/local/bin/pandoc")
 ;; change looks
 (setq markdown-preview-stylesheets (list "github.css"))
 
@@ -280,6 +280,9 @@
 (use-package rust-mode
   :ensure t
   :custom rust-format-on-save t)
+
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package cargo
   :ensure t
