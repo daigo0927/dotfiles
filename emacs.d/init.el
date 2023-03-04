@@ -129,7 +129,7 @@
 (use-package yasnippet
   :ensure t
   :diminish
-  :init (yas-global-mode)
+  :hook ((lsp-mode . yas-minor-mode))
   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
@@ -319,13 +319,15 @@
 
 (use-package cargo
   :ensure t
-  :hook (rust-mode . cargo-minor-mode))
+  :hook ((rust-mode . cargo-minor-mode)
+	 (rust-mode . lsp))
+  )
 
 ;;; LSP: language server protocol settings ;;;
 ;;; lsp-mode
 (use-package lsp-mode
   :ensure t
-  :hook (rust-mode . lsp)
+  :commands (lsp lsp-deferred)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom ((lsp-rust-server 'rust-analyzer)
 	   (lsp-diagnostics-flycheck-default-level warning)
@@ -344,7 +346,7 @@
   :ensure t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
-                         (lsp))))  ; or lsp-deferred)
+                         (lsp-deferred))))
 
 (use-package dockerfile-mode :ensure t)
 
