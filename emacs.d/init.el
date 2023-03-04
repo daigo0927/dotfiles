@@ -40,7 +40,10 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(use-package diminish :ensure t)
+(use-package diminish
+  :ensure t
+  :diminish (eldoc-mode)
+  )
 
 ;; python major mode
 (use-package python
@@ -110,17 +113,24 @@
     ;; (setq company-box-backends-colors nil)
     ;; (setq company-box-show-single-candidate t)
     ;; (setq company-box-max-candidates 50)
-    ;; )
+  ;; )
+
+  ;; company-tabnine
+  ;; (use-package company-tabnine
+  ;;   :ensure t
+  ;;   :config (add-to-list 'company-backends #'company-tabnine))
+
+  ;; py-yapf - auto format
+  ;; (require 'py-yapf)
+  ;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+  
   )
 
-;; company-tabnine
-;; (use-package company-tabnine
-;;   :ensure t
-;;   :config (add-to-list 'company-backends #'company-tabnine))
-
-;; py-yapf - auto format
-;; (require 'py-yapf)
-;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+(use-package yasnippet
+  :ensure t
+  :diminish
+  :init (yas-global-mode)
+  )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
@@ -150,8 +160,10 @@
     (setq imenu-create-index-function 'python-imenu-create-index)))
 
 ;; color theme
-(require 'rebecca-theme)
-(load-theme 'rebecca t)
+(use-package rebecca-theme
+  :ensure t
+  :config (load-theme 'rebecca t)
+  )
 
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
@@ -161,12 +173,18 @@
 (setq markdown-preview-stylesheets (list "github.css"))
 
 ;; smartparens
-(require 'smartparens)
-(smartparens-global-mode t)
+(use-package smartparens
+  :ensure t
+  :diminish
+  :init (smartparens-global-mode)
+  )
 
 ;; undo-tree
-(require 'undo-tree)
-(global-undo-tree-mode t)
+(use-package undo-tree
+  :ensure t
+  :diminish
+  :init (global-undo-tree-mode)
+  )
 (global-set-key (kbd "M-/") 'undo-tree-redo)
 
 ;; change quit key to C-q
@@ -206,9 +224,11 @@
 
 ;; highlight target region
 (transient-mark-mode t)
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
-
+(use-package volatile-highlights
+  :ensure t
+  :diminish
+  :config (volatile-highlights-mode t)
+  )
 (put 'set-goal-column 'disabled nil)
 
 ;; all-the-icons
@@ -223,9 +243,22 @@
   :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; ivy&counsel: completion interface
-(require 'ivy)
-(ivy-mode 1) ;; set default input completion to ivy
-(counsel-mode 1) ;; Remap basic command like (M-x, C-x, C-f, ...) to ivy
+(use-package ivy
+  :defer 0.1
+  :ensure t
+  :diminish
+
+  :config
+  (ivy-mode)
+
+  (use-package counsel
+    :ensure t
+    :diminish
+
+    :config
+    (counsel-mode)
+    )
+  )
 
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -292,7 +325,6 @@
 ;;; lsp-mode
 (use-package lsp-mode
   :ensure t
-  :init (yas-global-mode)
   :hook (rust-mode . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
   :custom ((lsp-rust-server 'rust-analyzer)
