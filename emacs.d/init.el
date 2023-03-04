@@ -50,7 +50,8 @@
 ;; flycheck - syntax checker
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+)
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -113,9 +114,9 @@
   )
 
 ;; company-tabnine
-(use-package company-tabnine
-  :ensure t
-  :config (add-to-list 'company-backends #'company-tabnine))
+;; (use-package company-tabnine
+;;   :ensure t
+;;   :config (add-to-list 'company-backends #'company-tabnine))
 
 ;; py-yapf - auto format
 ;; (require 'py-yapf)
@@ -155,7 +156,7 @@
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
 ;; use pandoc for markdown-preview
-(setq markdown-command "/usr/local/bin/pandoc")
+;; (setq markdown-command "/usr/local/bin/pandoc")
 ;; change looks
 (setq markdown-preview-stylesheets (list "github.css"))
 
@@ -280,6 +281,9 @@
   :ensure t
   :custom rust-format-on-save t)
 
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
@@ -291,7 +295,10 @@
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
   :bind ("C-c h" . lsp-describe-thing-at-point)
-  :custom (lsp-rust-server 'rust-analyzer))
+  :custom ((lsp-rust-server 'rust-analyzer)
+	   (lsp-diagnostics-flycheck-default-level warning)
+	   )
+  )
 
 (use-package lsp-ui
   :ensure t
@@ -300,6 +307,12 @@
 	   (lsp-ui-doc-header              t)
 	   (lsp-ui-flycheck-live-reporting t)
 	   (lsp-ui-sideline-enable         nil)))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+			 (require 'lsp-pyright)
+                         (lsp))))  ; or lsp-deferred)
 
 (use-package dockerfile-mode :ensure t)
 
