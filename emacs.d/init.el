@@ -113,11 +113,6 @@
     ;; )
   )
 
-;; company-tabnine
-;; (use-package company-tabnine
-;;   :ensure t
-;;   :config (add-to-list 'company-backends #'company-tabnine))
-
 ;; py-yapf - auto format
 ;; (require 'py-yapf)
 ;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
