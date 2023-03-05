@@ -29,6 +29,7 @@
 (package-initialize)
 (fset 'package-desc-vers 'package--ac-desc-version)
 
+
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -53,8 +54,16 @@
 ;; flycheck - syntax checker
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode)
-)
+  ;; :init (global-flycheck-mode)
+  :hook (after-init . global-flycheck-mode)
+  :init (setq flycheck-global-modes
+	      '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+                    org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)
+	      flycheck-indication-mode (if (display-graphic-p)
+                                           'left-fringe
+                                         'left-margin)
+	      )
+  )
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -74,7 +83,7 @@
 ;; company mode
 (use-package company
   :ensure t
-  :diminish company-mode
+  ;; :diminish company-mode
 
   :custom
   (company-idle-delay            0)
@@ -128,8 +137,8 @@
 
 (use-package yasnippet
   :ensure t
-  :diminish
-  :hook ((lsp-mode . yas-minor-mode))
+  ;; :diminish
+  :config (yas-global-mode)
   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
