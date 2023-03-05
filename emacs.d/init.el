@@ -74,7 +74,7 @@
 ;; company mode
 (use-package company
   :ensure t
-  ;; :diminish company-mode
+  :diminish company-mode
 
   :custom
   (company-idle-delay            0)
@@ -83,9 +83,9 @@
   (company-show-numbers          t)
   (company-tng-auto-configure  nil)
 
-  ;; :config
-  ;; (global-company-mode)
-  ;; (company-tng-mode) ;; Tab and Go
+  :config
+  (global-company-mode)
+  (company-tng-mode)
 
   :bind
   (:map company-active-map
@@ -129,7 +129,7 @@
 (use-package yasnippet
   :ensure t
   :diminish
-  :config (yas-global-mode)
+  :hook ((lsp-mode . yas-minor-mode))
   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
@@ -165,6 +165,7 @@
   :config (load-theme 'rebecca t)
   )
 
+;; disable doom theme (avoid UI conflicts when emacs is used in -nw mode)
 ;; (use-package doom-themes
 ;;   :ensure t
 ;;   :config
@@ -215,7 +216,7 @@
 (global-set-key (kbd "C-q") 'keyboard-quit)
 
 ;; highlight current line
-;; (global-hl-line-mode t)
+(global-hl-line-mode t)
 
 ;; highlight parenthesis
 (show-paren-mode 1)
@@ -364,17 +365,13 @@
   :custom ((lsp-ui-doc-enable              nil)
 	   (lsp-ui-doc-header              t)
 	   (lsp-ui-flycheck-live-reporting t)
-	   (lsp-ui-sideline-enable         nil)
-	   )
-  )
+	   (lsp-ui-sideline-enable         nil)))
 
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
-                         (lsp-deferred)))
-  :custom ((lsp-pyright-multi-root nil))
-  )
+                         (lsp-deferred))))
 
 (use-package dockerfile-mode :ensure t)
 
