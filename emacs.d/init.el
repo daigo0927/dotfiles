@@ -52,18 +52,18 @@
   :interpreter ("python" . python-mode))
 
 ;; flycheck - syntax checker
-(use-package flycheck
-  :ensure t
-  ;; :init (global-flycheck-mode)
-  :hook (after-init . global-flycheck-mode)
-  :init (setq flycheck-global-modes
-	      '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
-                    org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)
-	      flycheck-indication-mode (if (display-graphic-p)
-                                           'left-fringe
-                                         'left-margin)
-	      )
-  )
+;; (use-package flycheck
+;;   :ensure t
+;;   ;; :init (global-flycheck-mode)
+;;   :hook (after-init . global-flycheck-mode)
+;;   :init (setq flycheck-global-modes
+;; 	      '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+;;                     org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)
+;; 	      flycheck-indication-mode (if (display-graphic-p)
+;;                                            'left-fringe
+;;                                          'left-margin)
+;; 	      )
+;;   )
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -81,65 +81,65 @@
   )
 
 ;; company mode
-(use-package company
-  :ensure t
-  ;; :diminish company-mode
+;; (use-package company
+;;   :ensure t
+;;   ;; :diminish company-mode
 
-  :custom
-  (company-idle-delay            0)
-  (company-minimum-prefix-length 2)
-  (company-selection-wrap-around t)
-  (company-show-numbers          t)
-  (company-tng-auto-configure  nil)
+;;   :custom
+;;   (company-idle-delay            0)
+;;   (company-minimum-prefix-length 2)
+;;   (company-selection-wrap-around t)
+;;   (company-show-numbers          t)
+;;   (company-tng-auto-configure  nil)
 
-  :config
-  (global-company-mode)
-  (company-tng-mode)
+;;   :config
+;;   (global-company-mode)
+;;   (company-tng-mode)
 
-  :bind
-  (:map company-active-map
-	("M-n" . nil)
-	("M-p" . nil)
-	("C-n" . 'company-select-next)
-	("C-p" . 'company-select-previous)
-	("C-h" . nil)
-	("<tab>" . company-complete-common-or-cycle))
-  (:map company-search-map
-	("C-n" . 'company-select-next)
-	("C-p" . 'company-select-previous)
-	("C-h" . 'company-search-delete-char)
-	("<space>" . nil)
-	("RET" . 'company-complete-selection)
-	("<return>" . 'company-complete-selection))
+;;   :bind
+;;   (:map company-active-map
+;; 	("M-n" . nil)
+;; 	("M-p" . nil)
+;; 	("C-n" . 'company-select-next)
+;; 	("C-p" . 'company-select-previous)
+;; 	("C-h" . nil)
+;; 	("<tab>" . company-complete-common-or-cycle))
+;;   (:map company-search-map
+;; 	("C-n" . 'company-select-next)
+;; 	("C-p" . 'company-select-previous)
+;; 	("C-h" . 'company-search-delete-char)
+;; 	("<space>" . nil)
+;; 	("RET" . 'company-complete-selection)
+;; 	("<return>" . 'company-complete-selection))
 
-  ;; :config
-  ;; Show pretty icons <- disable for suppress company-box unexistent bug
-  ;; (use-package company-box
-    ;; :diminish
-    ;; : hook (company-mode . company-box-mode)
-    ;; :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-    ;; :config
-    ;; (setq company-box-backends-colors nil)
-    ;; (setq company-box-show-single-candidate t)
-    ;; (setq company-box-max-candidates 50)
-  ;; )
+;;   ;; :config
+;;   ;; Show pretty icons <- disable for suppress company-box unexistent bug
+;;   ;; (use-package company-box
+;;     ;; :diminish
+;;     ;; : hook (company-mode . company-box-mode)
+;;     ;; :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+;;     ;; :config
+;;     ;; (setq company-box-backends-colors nil)
+;;     ;; (setq company-box-show-single-candidate t)
+;;     ;; (setq company-box-max-candidates 50)
+;;   ;; )
 
-  ;; company-tabnine
-  ;; (use-package company-tabnine
-  ;;   :ensure t
-  ;;   :config (add-to-list 'company-backends #'company-tabnine))
+;;   ;; company-tabnine
+;;   ;; (use-package company-tabnine
+;;   ;;   :ensure t
+;;   ;;   :config (add-to-list 'company-backends #'company-tabnine))
 
-  ;; py-yapf - auto format
-  ;; (require 'py-yapf)
-  ;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+;;   ;; py-yapf - auto format
+;;   ;; (require 'py-yapf)
+;;   ;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
   
-  )
+;;   )
 
-(use-package yasnippet
-  :ensure t
-  ;; :diminish
-  :config (yas-global-mode)
-  )
+;; (use-package yasnippet
+;;   :ensure t
+;;   ;; :diminish
+;;   :config (yas-global-mode)
+;;   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
 (with-eval-after-load 'go-mode
@@ -359,28 +359,69 @@
 
 ;;; LSP: language server protocol settings ;;;
 ;;; lsp-mode
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :bind ("C-c h" . lsp-describe-thing-at-point)
-  :custom ((lsp-rust-server 'rust-analyzer)
-	   (lsp-diagnostics-flycheck-default-level warning)
-	   )
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :commands (lsp lsp-deferred)
+;;   :bind ("C-c h" . lsp-describe-thing-at-point)
+;;   :custom ((lsp-rust-server 'rust-analyzer)
+;; 	   (lsp-diagnostics-flycheck-default-level warning)
+;; 	   )
+;;   )
+
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :custom ((lsp-ui-doc-enable              nil)
+;; 	   (lsp-ui-doc-header              t)
+;; 	   (lsp-ui-flycheck-live-reporting t)
+;; 	   (lsp-ui-sideline-enable         nil)))
+
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;; 			 (require 'lsp-pyright)
+;;                          (lsp-deferred))))
+
+(let* ((pkg-list '(lsp-mode
+		   lsp-ui
+		   yasnippet
+		   lsp-java
+		   lsp-python-ms
+		   lsp-haskell
+		   helm-lsp
+		   lsp-treemacs
+		   dap-mode
+		   lsp-origami
+		   lsp-dart
+		   company
+		   flycheck
+		   lsp-pyright
+                   ;; modes
+                   rust-mode
+		   php-mode
+		   scala-mode
+		   dart-mode
+		   clojure-mode
+		   typescript-mode
+		   csharp-mode
+		   haskell-mode)
+		 )
+       )
+
+  ;; (package-initialize)
+  (package-refresh-contents)
+
+  (mapc (lambda (pkg)
+          (unless (package-installed-p pkg)
+            (package-install pkg))
+          (require pkg))
+        pkg-list)
+
+  (yas-global-mode)
+  ;; (add-hook 'prog-mode-hook 'lsp)
+  (add-hook 'python-mode-hook 'lsp)
+  (add-hook 'rust-mode-hook 'lsp)
   )
-
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
-  :custom ((lsp-ui-doc-enable              nil)
-	   (lsp-ui-doc-header              t)
-	   (lsp-ui-flycheck-live-reporting t)
-	   (lsp-ui-sideline-enable         nil)))
-
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright)
-                         (lsp-deferred))))
 
 (use-package dockerfile-mode :ensure t)
 
