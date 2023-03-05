@@ -74,7 +74,7 @@
 ;; company mode
 (use-package company
   :ensure t
-  :diminish company-mode
+  ;; :diminish company-mode
 
   :custom
   (company-idle-delay            0)
@@ -83,9 +83,9 @@
   (company-show-numbers          t)
   (company-tng-auto-configure  nil)
 
-  :config
-  (global-company-mode)
-  (company-tng-mode)
+  ;; :config
+  ;; (global-company-mode)
+  ;; (company-tng-mode) ;; Tab and Go
 
   :bind
   (:map company-active-map
@@ -129,7 +129,7 @@
 (use-package yasnippet
   :ensure t
   :diminish
-  :hook ((lsp-mode . yas-minor-mode))
+  :config (yas-global-mode)
   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
@@ -165,8 +165,8 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t
-	doom-one-brighter-comments t) ; if nil, italics is universally disabled
+        doom-themes-enable-italic t  ; if nil, italics is universally disabled
+	)
   (load-theme 'doom-one t)
 
   ;; Enable flashing mode-line on errors
@@ -210,7 +210,7 @@
 (global-set-key (kbd "C-q") 'keyboard-quit)
 
 ;; highlight current line
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 
 ;; highlight parenthesis
 (show-paren-mode 1)
@@ -359,13 +359,17 @@
   :custom ((lsp-ui-doc-enable              nil)
 	   (lsp-ui-doc-header              t)
 	   (lsp-ui-flycheck-live-reporting t)
-	   (lsp-ui-sideline-enable         nil)))
+	   (lsp-ui-sideline-enable         nil)
+	   )
+  )
 
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
-                         (lsp-deferred))))
+                         (lsp-deferred)))
+  :custom ((lsp-pyright-multi-root nil))
+  )
 
 (use-package dockerfile-mode :ensure t)
 
