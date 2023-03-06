@@ -46,6 +46,22 @@
   :diminish (eldoc-mode)
   )
 
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  )
+
+;; https://github.com/Alexander-Miller/treemacs#installation
+;; (use-package treemacs
+;;   :ensure t
+;;   :config
+;;   (use-package treemacs-icons-dired
+;;     :hook (dired-mode . treemacs-icons-dired-enable-once)
+;;     :ensure t
+;;     )
+;;   )
+
 ;; python major mode
 (use-package python
   :mode ("\\.py\\'" . python-mode)
@@ -111,11 +127,13 @@
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
+  
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
+  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
+  
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
@@ -127,7 +145,15 @@
    `(lsp-flycheck-info-unnecessary-face ((t (:foreground ,(doom-color 'green)))))
    `(font-lock-string-face ((t (:foreground ,(doom-color 'cyan)))))
    )
+
+  :config
+  (use-package doom-modeline
+    ;; https://github.com/seagle0128/doom-modeline#use-package
+    :ensure t
+    :hook (after-init . doom-modeline-mode)
+    )
   )
+
 
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
@@ -341,23 +367,21 @@
   :hook
   (python-mode . lsp)
   (rust-mode . lsp)
+
+  :config
+  (use-package lsp-ui :ensure t)
+  (use-package helm-lsp :ensure t)
+  (use-package lsp-treemacs :ensure t)
+  (use-package lsp-origami :ensure t)
+  (use-package lsp-pyright :ensure t)
+  (use-package lsp-origami :ensure t)
   )
 
-(use-package lsp-ui :ensure t)
 
-(use-package helm-lsp :ensure t)
-
-(use-package lsp-treemacs :ensure t)
-
-(use-package lsp-origami :ensure t)
-
-(use-package lsp-pyright :ensure t)
-
-(use-package lsp-origami :ensure t)
 
 (use-package company
   :ensure t
-  ;; :diminish
+  :diminish
 
   :config
   (global-company-mode)
