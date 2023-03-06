@@ -94,35 +94,40 @@
     (setq imenu-create-index-function 'python-imenu-create-index)))
 
 ;; color theme
-(use-package rebecca-theme
-  :ensure t
-  :config (load-theme 'rebecca t)
-  )
+;; (use-package rebecca-theme
+;;   :ensure t
+;;   :config (load-theme 'rebecca t)
+;;   )
 
 ;; disable doom theme (avoid UI conflicts when emacs is used in -nw mode)
-;; (use-package doom-themes
-;;   :ensure t
-;;   :config
-;;   ;; Global settings (defaults)
-;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-;;         doom-themes-enable-italic t  ; if nil, italics is universally disabled
-;; 	)
-;;   (load-theme 'doom-one t)
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t  ; if nil, italics is universally disabled
+	)
+  (load-theme 'doom-one t)
 
-;;   ;; Enable flashing mode-line on errors
-;;   (doom-themes-visual-bell-config)
-;;   ;; Enable custom neotree theme (all-the-icons must be installed!)
-;;   (doom-themes-neotree-config)
-;;   ;; or for treemacs users
-;;   (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-;;   (doom-themes-treemacs-config)
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
 
-;;   (custom-set-faces
-;;    `(mode-line ((t (:background ,(doom-color 'dark-violet)))))
-;;    `(font-lock-comment-face ((t (:foreground ,(doom-color 'base7))))))
-;;   )
+  ;; See details: https://qiita.com/hyakt/items/0473112466da7f6d3bdc
+  (custom-set-faces
+   `(mode-line ((t (:background ,(doom-color 'dark-violet)))))
+   `(font-lock-comment-face ((t (:foreground ,(doom-color 'base7)))))
+   `(flycheck-error ((t (:foreground ,(doom-color 'red)))))
+   `(lsp-flycheck-info-unnecessary-face ((t (:foreground ,(doom-color 'green)))))
+   `(font-lock-string-face ((t (:foreground ,(doom-color 'cyan)))))
+   )
+  )
 
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
@@ -333,19 +338,22 @@
 (use-package lsp-mode
   :ensure t
   ;; :hook (prog-mode . lsp)
-  :hook ((python-mode . lsp)
-	 (rust-mode . lsp))
-
-  (use-package lsp-ui :ensure t)
-
-  (use-package helm-lsp :ensure t)
-
-  (use-package lsp-treemacs :ensure t)
-
-  (use-package lsp-origami :ensure t)
-
-  (use-package lsp-pyright :ensure t)
+  :hook
+  (python-mode . lsp)
+  (rust-mode . lsp)
   )
+
+(use-package lsp-ui :ensure t)
+
+(use-package helm-lsp :ensure t)
+
+(use-package lsp-treemacs :ensure t)
+
+(use-package lsp-origami :ensure t)
+
+(use-package lsp-pyright :ensure t)
+
+(use-package lsp-origami :ensure t)
 
 (use-package company
   :ensure t
