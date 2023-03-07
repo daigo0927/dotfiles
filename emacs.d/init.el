@@ -72,6 +72,8 @@
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 
+(use-package magit :ensure t)
+
 (use-package diff-hl
   :ensure t
   :init (global-diff-hl-mode)
