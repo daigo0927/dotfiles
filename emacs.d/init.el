@@ -29,6 +29,7 @@
 (package-initialize)
 (fset 'package-desc-vers 'package--ac-desc-version)
 
+
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -45,16 +46,26 @@
   :diminish (eldoc-mode)
   )
 
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  )
+
+;; https://github.com/Alexander-Miller/treemacs#installation
+;; (use-package treemacs
+;;   :ensure t
+;;   :config
+;;   (use-package treemacs-icons-dired
+;;     :hook (dired-mode . treemacs-icons-dired-enable-once)
+;;     :ensure t
+;;     )
+;;   )
+
 ;; python major mode
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
-
-;; flycheck - syntax checker
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode)
-)
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
@@ -69,67 +80,6 @@
   (unless (window-system)
     (diff-hl-mode . diff-hl-margin-local-mode)
     )
-  )
-
-;; company mode
-(use-package company
-  :ensure t
-  :diminish company-mode
-
-  :custom
-  (company-idle-delay            0)
-  (company-minimum-prefix-length 2)
-  (company-selection-wrap-around t)
-  (company-show-numbers          t)
-  (company-tng-auto-configure  nil)
-
-  :config
-  (global-company-mode)
-  (company-tng-mode)
-
-  :bind
-  (:map company-active-map
-	("M-n" . nil)
-	("M-p" . nil)
-	("C-n" . 'company-select-next)
-	("C-p" . 'company-select-previous)
-	("C-h" . nil)
-	("<tab>" . company-complete-common-or-cycle))
-  (:map company-search-map
-	("C-n" . 'company-select-next)
-	("C-p" . 'company-select-previous)
-	("C-h" . 'company-search-delete-char)
-	("<space>" . nil)
-	("RET" . 'company-complete-selection)
-	("<return>" . 'company-complete-selection))
-
-  ;; :config
-  ;; Show pretty icons <- disable for suppress company-box unexistent bug
-  ;; (use-package company-box
-    ;; :diminish
-    ;; : hook (company-mode . company-box-mode)
-    ;; :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-    ;; :config
-    ;; (setq company-box-backends-colors nil)
-    ;; (setq company-box-show-single-candidate t)
-    ;; (setq company-box-max-candidates 50)
-  ;; )
-
-  ;; company-tabnine
-  ;; (use-package company-tabnine
-  ;;   :ensure t
-  ;;   :config (add-to-list 'company-backends #'company-tabnine))
-
-  ;; py-yapf - auto format
-  ;; (require 'py-yapf)
-  ;; (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
-  
-  )
-
-(use-package yasnippet
-  :ensure t
-  :diminish
-  :init (yas-global-mode)
   )
 
 ;; go settings: https://emacs-jp.github.io/programming/golang
@@ -160,10 +110,50 @@
     (setq imenu-create-index-function 'python-imenu-create-index)))
 
 ;; color theme
-(use-package rebecca-theme
+;; (use-package rebecca-theme
+;;   :ensure t
+;;   :config (load-theme 'rebecca t)
+;;   )
+
+;; disable doom theme (avoid UI conflicts when emacs is used in -nw mode)
+(use-package doom-themes
   :ensure t
-  :config (load-theme 'rebecca t)
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t  ; if nil, italics is universally disabled
+	)
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+
+  ;; See details: https://qiita.com/hyakt/items/0473112466da7f6d3bdc
+  (custom-set-faces
+   `(mode-line ((t (:background ,(doom-color 'dark-violet)))))
+   `(font-lock-comment-face ((t (:foreground ,(doom-color 'base7)))))
+   `(flycheck-error ((t (:foreground ,(doom-color 'red)))))
+   `(lsp-flycheck-info-unnecessary-face ((t (:foreground ,(doom-color 'green)))))
+   `(font-lock-string-face ((t (:foreground ,(doom-color 'cyan)))))
+   )
+
+  :config
+  (use-package doom-modeline
+    ;; https://github.com/seagle0128/doom-modeline#use-package
+    :ensure t
+    :hook (after-init . doom-modeline-mode)
+    )
   )
+
 
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
@@ -319,32 +309,140 @@
 
 (use-package cargo
   :ensure t
-  :hook (rust-mode . cargo-minor-mode))
-
-;;; LSP: language server protocol settings ;;;
-;;; lsp-mode
-(use-package lsp-mode
-  :ensure t
-  :hook (rust-mode . lsp)
-  :bind ("C-c h" . lsp-describe-thing-at-point)
-  :custom ((lsp-rust-server 'rust-analyzer)
-	   (lsp-diagnostics-flycheck-default-level warning)
-	   )
+  :hook ((rust-mode . cargo-minor-mode)
+	 (rust-mode . lsp))
   )
 
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
-  :custom ((lsp-ui-doc-enable              nil)
-	   (lsp-ui-doc-header              t)
-	   (lsp-ui-flycheck-live-reporting t)
-	   (lsp-ui-sideline-enable         nil)))
+;;; LSP: language server protocol settings ;;;
+;;; from https://github.com/emacs-lsp/lsp-mode/blob/master/scripts/lsp-start-plain.el
+;;; lsp-mode
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :commands (lsp lsp-deferred)
+;;   :bind ("C-c h" . lsp-describe-thing-at-point)
+;;   :custom ((lsp-rust-server 'rust-analyzer)
+;; 	   (lsp-diagnostics-flycheck-default-level warning)
+;; 	   )
+;;   )
 
-(use-package lsp-pyright
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :custom ((lsp-ui-doc-enable              nil)
+;; 	   (lsp-ui-doc-header              t)
+;; 	   (lsp-ui-flycheck-live-reporting t)
+;; 	   (lsp-ui-sideline-enable         nil)))
+
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;; 			 (require 'lsp-pyright)
+;;                          (lsp-deferred))))
+
+;; (let* ((pkg-list '(
+;; 		   ;; flycheck
+;; 		   ;; lsp-pyright
+;; 		   )
+;; 		 )
+;;        )
+
+;;   ;; (package-initialize)
+;;   (package-refresh-contents)
+
+;;   (mapc (lambda (pkg)
+;;           (unless (package-installed-p pkg)
+;;             (package-install pkg))
+;;           (require pkg))
+;;         pkg-list)
+
+;;   ;; (yas-global-mode)
+;;   ;; (add-hook 'prog-mode-hook 'lsp)
+;;   ;; (add-hook 'python-mode-hook 'lsp)
+;;   ;; (add-hook 'rust-mode-hook 'lsp)
+;;   )
+
+(use-package lsp-mode
   :ensure t
-  :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright)
-                         (lsp))))  ; or lsp-deferred)
+  ;; :hook (prog-mode . lsp)
+  :hook
+  (python-mode . lsp)
+  (rust-mode . lsp)
+
+  :config
+  (use-package lsp-ui :ensure t)
+  (use-package helm-lsp :ensure t)
+  (use-package lsp-treemacs :ensure t)
+  (use-package lsp-origami :ensure t)
+  (use-package lsp-pyright :ensure t)
+  (use-package lsp-origami :ensure t)
+  )
+
+
+
+(use-package company
+  :ensure t
+  :diminish
+
+  :config
+  (global-company-mode)
+  ;; (company-tng-mode)
+
+  :custom
+  (company-idle-delay            0)
+  (company-minimum-prefix-length 2)
+  (company-selection-wrap-around t)
+  (company-show-numbers          t)
+  (company-tng-auto-configure  nil)
+
+  ;; :bind
+  ;; (:map company-active-map
+  ;; 	("M-n" . nil)
+  ;; 	("M-p" . nil)
+  ;; 	("C-n" . 'company-select-next)
+  ;; 	("C-p" . 'company-select-previous)
+  ;; 	("C-h" . nil)
+  ;; 	("<tab>" . company-complete-common-or-cycle))
+  ;; (:map company-search-map
+  ;; 	("C-n" . 'company-select-next)
+  ;; 	("C-p" . 'company-select-previous)
+  ;; 	("C-h" . 'company-search-delete-char)
+  ;; 	("<space>" . nil)
+  ;; 	("RET" . 'company-complete-selection)
+  ;; 	("<return>" . 'company-complete-selection))
+
+  ;; ;; Show pretty icons <- disable for suppress company-box unexistent bug
+  ;; (use-package company-box
+  ;;   :diminish
+  ;;   : hook (company-mode . company-box-mode)
+  ;;   :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+  ;;   :config
+  ;;   (setq company-box-backends-colors nil)
+  ;;   (setq company-box-show-single-candidate t)
+  ;;   (setq company-box-max-candidates 50)
+  ;;   )
+  )
+
+(use-package yasnippet
+  :ensure t
+  :diminish
+  :config (yas-global-mode)
+  )
+
+;; flycheck - syntax checker
+(use-package flycheck
+  :ensure t
+  :init (setq flycheck-global-modes
+	      '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+                    org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)
+	      flycheck-indication-mode (if (display-graphic-p)
+                                           'left-fringe
+                                         'left-margin)
+	      )
+  :hook (after-init . global-flycheck-mode)
+  )
+
+(use-package dap-mode
+  :ensure t)
 
 (use-package dockerfile-mode :ensure t)
 
