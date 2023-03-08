@@ -72,6 +72,7 @@
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
 
+;; Usage: https://iriya-ufo.net/blog/2022/02/22/magit/
 (use-package magit :ensure t)
 
 (use-package diff-hl
