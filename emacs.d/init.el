@@ -20,7 +20,11 @@
 
 (setq gc-cons-threshold 12800000)
 
-;; package management
+;; truncate long lines
+(setq-default truncate-lines t)
+(setq-default truncate-partial-width-windows t)
+
+;; Package management
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
