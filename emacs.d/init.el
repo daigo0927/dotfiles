@@ -24,7 +24,7 @@
 (setq-default truncate-lines t)
 (setq-default truncate-partial-width-windows t)
 
-;; Package management
+;; package management
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -144,9 +144,11 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
-  ;; See details: https://qiita.com/hyakt/items/0473112466da7f6d3bdc
+  ;; Color list: http://xay-lab.nautilus.xyz/2010/09/emacs.html
+  ;; Other: https://qiita.com/hyakt/items/0473112466da7f6d3bdc, 
   (custom-set-faces
-   `(mode-line ((t (:background ,(doom-color 'dark-violet)))))
+   `(mode-line ((t (:background , "SlateBlue1"))))
+   `(mode-line-inactive ((t (:background , "SlateBlue4"))))
    `(font-lock-comment-face ((t (:foreground ,(doom-color 'base7)))))
    `(flycheck-error ((t (:foreground ,(doom-color 'red)))))
    `(lsp-flycheck-info-unnecessary-face ((t (:foreground ,(doom-color 'green)))))
