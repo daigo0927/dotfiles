@@ -328,53 +328,6 @@
   )
 
 ;;; LSP: language server protocol settings ;;;
-;;; from https://github.com/emacs-lsp/lsp-mode/blob/master/scripts/lsp-start-plain.el
-;;; lsp-mode
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :commands (lsp lsp-deferred)
-;;   :bind ("C-c h" . lsp-describe-thing-at-point)
-;;   :custom ((lsp-rust-server 'rust-analyzer)
-;; 	   (lsp-diagnostics-flycheck-default-level warning)
-;; 	   )
-;;   )
-
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :hook (lsp-mode . lsp-ui-mode)
-;;   :custom ((lsp-ui-doc-enable              nil)
-;; 	   (lsp-ui-doc-header              t)
-;; 	   (lsp-ui-flycheck-live-reporting t)
-;; 	   (lsp-ui-sideline-enable         nil)))
-
-;; (use-package lsp-pyright
-;;   :ensure t
-;;   :hook (python-mode . (lambda ()
-;; 			 (require 'lsp-pyright)
-;;                          (lsp-deferred))))
-
-;; (let* ((pkg-list '(
-;; 		   ;; flycheck
-;; 		   ;; lsp-pyright
-;; 		   )
-;; 		 )
-;;        )
-
-;;   ;; (package-initialize)
-;;   (package-refresh-contents)
-
-;;   (mapc (lambda (pkg)
-;;           (unless (package-installed-p pkg)
-;;             (package-install pkg))
-;;           (require pkg))
-;;         pkg-list)
-
-;;   ;; (yas-global-mode)
-;;   ;; (add-hook 'prog-mode-hook 'lsp)
-;;   ;; (add-hook 'python-mode-hook 'lsp)
-;;   ;; (add-hook 'rust-mode-hook 'lsp)
-;;   )
-
 (use-package lsp-mode
   :ensure t
   ;; :hook (prog-mode . lsp)
@@ -391,15 +344,12 @@
   (use-package lsp-origami :ensure t)
   )
 
-
-
 (use-package company
   :ensure t
   :diminish
 
   :config
   (global-company-mode)
-  ;; (company-tng-mode)
 
   :custom
   (company-idle-delay            0)
@@ -407,33 +357,6 @@
   (company-selection-wrap-around t)
   (company-show-numbers          t)
   (company-tng-auto-configure  nil)
-
-  ;; :bind
-  ;; (:map company-active-map
-  ;; 	("M-n" . nil)
-  ;; 	("M-p" . nil)
-  ;; 	("C-n" . 'company-select-next)
-  ;; 	("C-p" . 'company-select-previous)
-  ;; 	("C-h" . nil)
-  ;; 	("<tab>" . company-complete-common-or-cycle))
-  ;; (:map company-search-map
-  ;; 	("C-n" . 'company-select-next)
-  ;; 	("C-p" . 'company-select-previous)
-  ;; 	("C-h" . 'company-search-delete-char)
-  ;; 	("<space>" . nil)
-  ;; 	("RET" . 'company-complete-selection)
-  ;; 	("<return>" . 'company-complete-selection))
-
-  ;; ;; Show pretty icons <- disable for suppress company-box unexistent bug
-  ;; (use-package company-box
-  ;;   :diminish
-  ;;   : hook (company-mode . company-box-mode)
-  ;;   :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-  ;;   :config
-  ;;   (setq company-box-backends-colors nil)
-  ;;   (setq company-box-show-single-candidate t)
-  ;;   (setq company-box-max-candidates 50)
-  ;;   )
   )
 
 (use-package yasnippet
