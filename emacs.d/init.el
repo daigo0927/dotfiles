@@ -164,6 +164,11 @@
   )
 
 
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . lsp)
+  )
+
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
 ;; use pandoc for markdown-preview
@@ -470,6 +475,17 @@
   :hook (terraform-mode . company-mode)
   )
 (use-package terraform-doc :ensure t)
+
+(use-package prescient
+  :ensure t
+  :diminish
+
+  :if (package-installed-p 'company)
+  :config (use-package company-prescient :ensure t)
+
+  :if (package-installed-p 'ivy)
+  :config (use-package ivy-prescient :ensure t)
+  )
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
