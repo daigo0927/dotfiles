@@ -278,9 +278,10 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 
 ;; web-mode
-(require 'web-mode)
+(use-package web-mode :ensure t)
 (add-to-list 'auto-mode-alist '("\\.ctp$"      . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js[x]?$"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?$"    . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml?$"  . web-mode))
 
@@ -293,10 +294,12 @@
   ;; indent
   (setq web-mode-html-offset   2)
   (setq web-mode-style-padding 2)
-  (setq web-mode-css-offset    2)
   (setq web-mode-script-offset 2)
   (setq web-mode-java-offset   2)
   (setq web-mode-asp-offset    2)
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
 
   ;; auto tag closing
   (setq web-mode-enable-auto-pairing t)
@@ -327,6 +330,33 @@
 	 (rust-mode . lsp))
   )
 
+;;; typescript setup ;;;
+(use-package typescript-mode
+  :ensure t
+  :mode ("\\.ts\\'" . typescript-mode))
+
+(use-package tss
+  :ensure t
+  :init
+  (setq tss-popup-help-key "C-:")
+  (setq tss-jump-to-definition-key "C->")
+  (setq tss-implement-definition-key "C-c i")
+  )
+
+(defun typescript-setup ()
+  (setq typescript-indent-level 2)
+  (flycheck-mode t)
+  (flycheck-typescript-tslint-setup)
+  (tss-setup-current-buffer))
+
+(add-hook 'typescript-mode-hook 'typescript-setup)
+(add-hook 'kill-buffer-hook 'tss--delete-process t)
+
+(use-package ansi-color :ensure t)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 ;;; LSP: language server protocol settings ;;;
 (use-package lsp-mode
   :ensure t
@@ -334,6 +364,7 @@
   :hook
   (python-mode . lsp)
   (rust-mode . lsp)
+  (typescript-mode . lsp)
 
   :config
   (use-package lsp-ui :ensure t)
