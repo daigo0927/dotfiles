@@ -20,6 +20,10 @@
 
 (setq gc-cons-threshold 12800000)
 
+;; truncate long lines
+(setq-default truncate-lines t)
+(setq-default truncate-partial-width-windows t)
+
 ;; package management
 (require 'package)
 (setq package-archives
@@ -71,6 +75,9 @@
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
+
+;; Usage: https://iriya-ufo.net/blog/2022/02/22/magit/
+(use-package magit :ensure t)
 
 (use-package diff-hl
   :ensure t
@@ -137,9 +144,11 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
-  ;; See details: https://qiita.com/hyakt/items/0473112466da7f6d3bdc
+  ;; Color list: http://xay-lab.nautilus.xyz/2010/09/emacs.html
+  ;; Other: https://qiita.com/hyakt/items/0473112466da7f6d3bdc, 
   (custom-set-faces
-   `(mode-line ((t (:background ,(doom-color 'dark-violet)))))
+   `(mode-line ((t (:background , "SlateBlue1"))))
+   `(mode-line-inactive ((t (:background , "SlateBlue4"))))
    `(font-lock-comment-face ((t (:foreground ,(doom-color 'base7)))))
    `(flycheck-error ((t (:foreground ,(doom-color 'red)))))
    `(lsp-flycheck-info-unnecessary-face ((t (:foreground ,(doom-color 'green)))))
@@ -154,6 +163,11 @@
     )
   )
 
+
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . lsp)
+  )
 
 ;; markdown preview
 (autoload 'markdown-preview-mode "markdown-preview-mode.el" t)
@@ -314,53 +328,6 @@
   )
 
 ;;; LSP: language server protocol settings ;;;
-;;; from https://github.com/emacs-lsp/lsp-mode/blob/master/scripts/lsp-start-plain.el
-;;; lsp-mode
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :commands (lsp lsp-deferred)
-;;   :bind ("C-c h" . lsp-describe-thing-at-point)
-;;   :custom ((lsp-rust-server 'rust-analyzer)
-;; 	   (lsp-diagnostics-flycheck-default-level warning)
-;; 	   )
-;;   )
-
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :hook (lsp-mode . lsp-ui-mode)
-;;   :custom ((lsp-ui-doc-enable              nil)
-;; 	   (lsp-ui-doc-header              t)
-;; 	   (lsp-ui-flycheck-live-reporting t)
-;; 	   (lsp-ui-sideline-enable         nil)))
-
-;; (use-package lsp-pyright
-;;   :ensure t
-;;   :hook (python-mode . (lambda ()
-;; 			 (require 'lsp-pyright)
-;;                          (lsp-deferred))))
-
-;; (let* ((pkg-list '(
-;; 		   ;; flycheck
-;; 		   ;; lsp-pyright
-;; 		   )
-;; 		 )
-;;        )
-
-;;   ;; (package-initialize)
-;;   (package-refresh-contents)
-
-;;   (mapc (lambda (pkg)
-;;           (unless (package-installed-p pkg)
-;;             (package-install pkg))
-;;           (require pkg))
-;;         pkg-list)
-
-;;   ;; (yas-global-mode)
-;;   ;; (add-hook 'prog-mode-hook 'lsp)
-;;   ;; (add-hook 'python-mode-hook 'lsp)
-;;   ;; (add-hook 'rust-mode-hook 'lsp)
-;;   )
-
 (use-package lsp-mode
   :ensure t
   ;; :hook (prog-mode . lsp)
@@ -377,15 +344,12 @@
   (use-package lsp-origami :ensure t)
   )
 
-
-
 (use-package company
   :ensure t
   :diminish
 
   :config
   (global-company-mode)
-  ;; (company-tng-mode)
 
   :custom
   (company-idle-delay            0)
@@ -393,33 +357,6 @@
   (company-selection-wrap-around t)
   (company-show-numbers          t)
   (company-tng-auto-configure  nil)
-
-  ;; :bind
-  ;; (:map company-active-map
-  ;; 	("M-n" . nil)
-  ;; 	("M-p" . nil)
-  ;; 	("C-n" . 'company-select-next)
-  ;; 	("C-p" . 'company-select-previous)
-  ;; 	("C-h" . nil)
-  ;; 	("<tab>" . company-complete-common-or-cycle))
-  ;; (:map company-search-map
-  ;; 	("C-n" . 'company-select-next)
-  ;; 	("C-p" . 'company-select-previous)
-  ;; 	("C-h" . 'company-search-delete-char)
-  ;; 	("<space>" . nil)
-  ;; 	("RET" . 'company-complete-selection)
-  ;; 	("<return>" . 'company-complete-selection))
-
-  ;; ;; Show pretty icons <- disable for suppress company-box unexistent bug
-  ;; (use-package company-box
-  ;;   :diminish
-  ;;   : hook (company-mode . company-box-mode)
-  ;;   :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-  ;;   :config
-  ;;   (setq company-box-backends-colors nil)
-  ;;   (setq company-box-show-single-candidate t)
-  ;;   (setq company-box-max-candidates 50)
-  ;;   )
   )
 
 (use-package yasnippet
@@ -461,6 +398,17 @@
   :hook (terraform-mode . company-mode)
   )
 (use-package terraform-doc :ensure t)
+
+(use-package prescient
+  :ensure t
+  :diminish
+
+  :if (package-installed-p 'company)
+  :config (use-package company-prescient :ensure t)
+
+  :if (package-installed-p 'ivy)
+  :config (use-package ivy-prescient :ensure t)
+  )
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not cl-functions obsolete)
