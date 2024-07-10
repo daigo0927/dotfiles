@@ -122,7 +122,7 @@
 ;;   :config (load-theme 'rebecca t)
 ;;   )
 
-;; disable doom theme (avoid UI conflicts when emacs is used in -nw mode)
+;; Note: doom theme sometimes conflicts when emacs is used in -nw mode)
 (use-package doom-themes
   :ensure t
   :config
@@ -145,7 +145,7 @@
   (doom-themes-org-config)
 
   ;; Color list: http://xay-lab.nautilus.xyz/2010/09/emacs.html
-  ;; Other: https://qiita.com/hyakt/items/0473112466da7f6d3bdc, 
+  ;; Other: https://qiita.com/hyakt/items/0473112466da7f6d3bdc,
   (custom-set-faces
    `(mode-line ((t (:background , "SlateBlue1"))))
    `(mode-line-inactive ((t (:background , "SlateBlue4"))))
@@ -160,9 +160,15 @@
     ;; https://github.com/seagle0128/doom-modeline#use-package
     :ensure t
     :hook (after-init . doom-modeline-mode)
+    :init
+    (setq doom-modeline-vcs-max-length 20)
     )
   )
 
+;; (use-package vscode-dark-plus-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'vscode-dark-plus t))
 
 (use-package markdown-mode
   :ensure t
@@ -426,7 +432,9 @@
 (use-package terraform-mode
   :ensure t
   :custom (terraform-format-on-save-mode t)
-  :hook (terraform-mode . company-mode)
+  :hook
+  (terraform-mode . company-mode)
+  (terraform-mode . outline-minor-mode)
   )
 (use-package terraform-doc :ensure t)
 
